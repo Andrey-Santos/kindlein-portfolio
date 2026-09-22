@@ -47,10 +47,10 @@ export function Hero() {
       const slotBox = slot.getBoundingClientRect();
       const heroWidth = stickyBox.width * HERO_WIDTH_RATIO;
       setHeroRect({
-        top: 0,
+        top: -64,
         left: stickyBox.width - heroWidth,
         width: heroWidth,
-        height: stickyBox.height,
+        height: stickyBox.height + 64,
       });
       setSlotRect({
         top: slotBox.top - stickyBox.top,
@@ -113,7 +113,7 @@ export function Hero() {
         )}
         <div
           ref={stickyRef}
-          className="sticky top-16 flex min-h-[calc(100svh-4rem)] items-start overflow-hidden pb-12 pt-16 sm:pt-20 md:pt-24"
+          className="sticky top-16 flex min-h-[calc(100svh-4rem)] items-start pb-12 pt-16 sm:pt-20 md:pt-24"
         >
           {enabled && (
             <div
