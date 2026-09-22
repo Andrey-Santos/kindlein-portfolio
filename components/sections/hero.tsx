@@ -93,6 +93,8 @@ export function Hero() {
   const photoHeightPx = lerp(heroRect.height, slotRect.height, p);
   const borderRadiusRem = p * 0.75;
   const borderAlpha = p * 0.25;
+  const leftFadeStop = 22 - 22 * p;
+  const edgeFade = `linear-gradient(to right, transparent 0%, black ${leftFadeStop}%)`;
 
   return (
     <section id="top" className="relative isolate snap-start scroll-mt-16">
@@ -115,7 +117,7 @@ export function Hero() {
         >
           {enabled && (
             <div
-              className="absolute overflow-hidden bg-card"
+              className="absolute z-10 overflow-hidden bg-card"
               style={{
                 top: photoTop,
                 left: photoLeft,
@@ -123,6 +125,8 @@ export function Hero() {
                 height: photoHeightPx,
                 borderRadius: `${borderRadiusRem}rem`,
                 border: `1px solid rgba(16,185,129,${borderAlpha})`,
+                WebkitMaskImage: edgeFade,
+                maskImage: edgeFade,
               }}
             >
               <Image
