@@ -6,28 +6,58 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { contact } from "@/lib/data";
 
-const SCALE_LARGE = 1.5;
 const RUNWAY_VH = 240;
 const GAP_PX = 32;
+const HERO_WIDTH_RATIO = 0.46;
+
+type Rect = { top: number; left: number; width: number; height: number };
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export function Hero() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const photoRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const slotRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(1);
   const [enabled, setEnabled] = useState(false);
-  const [photoWidth, setPhotoWidth] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [heroRect, setHeroRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
+  const [slotRect, setSlotRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
 
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mqlWide = window.matchMedia("(min-width: 768px)");
-    const shouldEnable = () => !mql.matches && mqlWide.matches;
-    setEnabled(shouldEnable());
+    const update = () => setEnabled(!mql.matches && mqlWide.matches);
+    update();
+    mql.addEventListener("change", update);
+    mqlWide.addEventListener("change", update);
+    return () => {
+      mql.removeEventListener("change", update);
+      mqlWide.removeEventListener("change", update);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
 
     const measure = () => {
-      setContainerWidth(containerRef.current?.clientWidth ?? 0);
-      setPhotoWidth(photoRef.current?.offsetWidth ?? 0);
+      const sticky = stickyRef.current;
+      const slot = slotRef.current;
+      if (!sticky || !slot) return;
+      const stickyBox = sticky.getBoundingClientRect();
+      const slotBox = slot.getBoundingClientRect();
+      const heroWidth = stickyBox.width * HERO_WIDTH_RATIO;
+      setHeroRect({
+        top: 0,
+        left: stickyBox.width - heroWidth,
+        width: heroWidth,
+        height: stickyBox.height,
+      });
+      setSlotRect({
+        top: slotBox.top - stickyBox.top,
+        left: slotBox.left - stickyBox.left,
+        width: slotBox.width,
+        height: slotBox.height,
+      });
     };
 
     const onScroll = () => {
@@ -45,21 +75,26 @@ export function Hero() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
-    mql.addEventListener("change", () => setEnabled(shouldEnable()));
-    mqlWide.addEventListener("change", () => setEnabled(shouldEnable()));
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
     };
-  }, []);
+  }, [enabled]);
 
   const p = enabled ? progress : 1;
-  const scale = SCALE_LARGE - (SCALE_LARGE - 1) * p;
   const heroOpacity = Math.max(0, 1 - p / 0.3);
   const aboutOpacity = Math.min(1, Math.max(0, (p - 0.5) / 0.4));
-  const photoShift = (containerWidth - photoWidth) * (1 - p);
-  const textShift = -(photoWidth + GAP_PX) * (1 - p);
+  const textShift = -(slotRect.width + GAP_PX) * (1 - p);
+
+  const photoTop = lerp(heroRect.top, slotRect.top, p);
+  const photoLeft = lerp(heroRect.left, slotRect.left, p);
+  const photoWidthPx = lerp(heroRect.width, slotRect.width, p);
+  const photoHeightPx = lerp(heroRect.height, slotRect.height, p);
+  const borderRadiusRem = p * 0.75;
+  const borderAlpha = p * 0.25;
+  const fadeStop = 35 - 35 * p;
+  const edgeFade = `linear-gradient(to right, transparent 0%, black ${fadeStop}%)`;
 
   return (
     <section id="top" className="relative isolate snap-start scroll-mt-16">
@@ -76,32 +111,54 @@ export function Hero() {
             style={{ top: `${RUNWAY_VH - 100}vh` }}
           />
         )}
-        <div className="sticky top-16 flex min-h-[calc(100svh-4rem)] items-start overflow-hidden px-6 pb-12 pt-16 sm:px-12 sm:pt-20 md:px-16 md:pt-24 lg:px-24">
-          <div
-            ref={containerRef}
-            className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 md:flex-row md:items-start md:justify-between md:gap-8"
-          >
+        <div
+          ref={stickyRef}
+          className="sticky top-16 flex min-h-[calc(100svh-4rem)] items-start overflow-hidden pb-12 pt-16 sm:pt-20 md:pt-24"
+        >
+          {enabled && (
             <div
-              ref={photoRef}
-              style={
-                enabled
-                  ? {
-                      transform: `translateX(${photoShift}px) scale(${scale})`,
-                      transformOrigin: "top",
-                    }
-                  : undefined
-              }
-              className="relative aspect-[4/5] w-72 shrink-0 overflow-hidden rounded-lg border border-primary/25 bg-card sm:w-96 md:w-[28rem]"
+              className="absolute overflow-hidden bg-card"
+              style={{
+                top: photoTop,
+                left: photoLeft,
+                width: photoWidthPx,
+                height: photoHeightPx,
+                borderRadius: `${borderRadiusRem}rem`,
+                border: `1px solid rgba(16,185,129,${borderAlpha})`,
+                WebkitMaskImage: edgeFade,
+                maskImage: edgeFade,
+              }}
             >
               <Image
                 src="/kindlein-foto.png"
                 alt="Andrey Kindlein"
                 fill
-                sizes="(min-width: 768px) 54rem, 24rem"
+                sizes="60vw"
                 className="object-cover object-top"
                 priority
               />
             </div>
+          )}
+
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 px-6 sm:px-12 md:flex-row md:items-start md:justify-between md:gap-8 md:px-16 lg:px-24">
+            {enabled ? (
+              <div
+                ref={slotRef}
+                aria-hidden="true"
+                className="invisible aspect-[4/5] w-72 shrink-0 sm:w-96 md:w-[28rem]"
+              />
+            ) : (
+              <div className="relative aspect-[4/5] w-72 shrink-0 overflow-hidden rounded-lg border border-primary/25 bg-card">
+                <Image
+                  src="/kindlein-foto.png"
+                  alt="Andrey Kindlein"
+                  fill
+                  sizes="24rem"
+                  className="object-cover object-top"
+                  priority
+                />
+              </div>
+            )}
 
             <div
               style={enabled ? { transform: `translateX(${textShift}px)` } : undefined}
