@@ -48,6 +48,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <SiteGlow />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-x-0 top-0 z-40 h-40 bg-gradient-to-b from-background/70 via-background/25 to-transparent"
+        />
         {children}
       </body>
     </html>
