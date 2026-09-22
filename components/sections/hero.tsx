@@ -151,14 +151,18 @@ export function Hero() {
                 className="invisible aspect-[4/5] w-72 shrink-0 sm:w-96 md:w-[28rem]"
               />
             ) : (
-              <div className="relative aspect-[4/5] w-72 shrink-0 overflow-hidden rounded-lg border border-primary/25 bg-card">
+              <div className="relative -mx-6 -mt-16 aspect-[3/4] w-[calc(100%+3rem)] shrink-0 overflow-hidden sm:-mx-12 sm:-mt-20 sm:w-[calc(100%+6rem)]">
                 <Image
                   src="/kindlein-foto.png"
                   alt="Andrey Kindlein"
                   fill
-                  sizes="24rem"
+                  sizes="100vw"
                   className="object-cover object-top"
                   priority
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
                 />
               </div>
             )}
