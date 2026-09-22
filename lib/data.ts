@@ -3,6 +3,8 @@ export type Project = {
   description: string;
   stack: string[];
   url: string;
+  /** Screenshots do projeto. `null` = placeholder ate ter a imagem real. */
+  images: (string | null)[];
 };
 
 export const projects: Project[] = [
@@ -12,36 +14,42 @@ export const projects: Project[] = [
       "Loja de moda feminina com e-commerce completo: carrinho e checkout.",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://fabula-delta.vercel.app/",
+    images: [null, null, null],
   },
   {
     name: "Metálica 3W",
     description: "Site institucional para empresa do setor metalúrgico.",
     stack: ["Next.js", "Tailwind CSS"],
     url: "https://3wsite.vercel.app/",
+    images: [null, null, null],
   },
   {
     name: "Kindlein Stock",
     description: "Sistema de gestão de estoque sob medida.",
     stack: ["Next.js", "TypeScript", "PostgreSQL"],
     url: "https://stock.kindlein.business/",
+    images: [null, null, null],
   },
   {
     name: "Kindlein Wallet",
     description: "Sistema financeiro para controle de receitas e despesas.",
     stack: ["Next.js", "TypeScript", "PostgreSQL"],
     url: "https://finance.kindlein.business/",
+    images: [null, null, null],
   },
   {
     name: "Puffs",
     description: "Loja online voltada pro nicho de pods.",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://puffs.kindlein.business/",
+    images: [null, null, null],
   },
   {
     name: "Goetten Store",
     description: "Loja online com catálogo e vendas diretas.",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://goetten-store.kindlein.business/",
+    images: [null, null, null],
   },
 ];
 

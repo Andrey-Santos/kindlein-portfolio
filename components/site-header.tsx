@@ -27,7 +27,11 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-transparent bg-transparent">
+    <header className="sticky top-0 z-50 border-b border-transparent">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/45 via-background/15 to-transparent"
+      />
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
         <nav className="hidden gap-8 font-mono text-sm font-medium text-foreground sm:flex">
           {navItems.map((item) => (
