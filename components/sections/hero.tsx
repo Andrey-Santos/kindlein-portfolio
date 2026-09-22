@@ -93,8 +93,9 @@ export function Hero() {
   const photoHeightPx = lerp(heroRect.height, slotRect.height, p);
   const borderRadiusRem = p * 0.75;
   const borderAlpha = p * 0.25;
-  const fadeStop = 35 - 35 * p;
-  const edgeFade = `linear-gradient(to right, transparent 0%, black ${fadeStop}%)`;
+  const vignetteInner = lerp(30, 100, p);
+  const vignetteOuter = lerp(90, 150, p);
+  const edgeFade = `radial-gradient(ellipse 160% 160% at 100% 100%, black ${vignetteInner}%, transparent ${vignetteOuter}%)`;
 
   return (
     <section id="top" className="relative isolate snap-start scroll-mt-16">
