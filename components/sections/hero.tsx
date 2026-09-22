@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { contact } from "@/lib/data";
 
-const RUNWAY_VH = 240;
+const RUNWAY_VH = 200;
 const GAP_PX = 32;
 const HERO_WIDTH_RATIO = 0.46;
 
@@ -22,6 +22,7 @@ export function Hero() {
   const [enabled, setEnabled] = useState(false);
   const [heroRect, setHeroRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
   const [slotRect, setSlotRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
+  const stickyHeightRef = useRef(0);
 
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -45,6 +46,7 @@ export function Hero() {
       if (!sticky || !slot) return;
       const stickyBox = sticky.getBoundingClientRect();
       const slotBox = slot.getBoundingClientRect();
+      stickyHeightRef.current = stickyBox.height;
       const heroWidth = stickyBox.width * HERO_WIDTH_RATIO;
       setHeroRect({
         top: -64,
@@ -64,7 +66,8 @@ export function Hero() {
       const el = scrollAreaRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const total = window.innerHeight * (RUNWAY_VH / 100 - 1);
+      const wrapperHeight = (window.innerHeight * RUNWAY_VH) / 100;
+      const total = wrapperHeight - (stickyHeightRef.current || window.innerHeight);
       const scrolled = -rect.top;
       const p = total > 0 ? Math.min(1, Math.max(0, scrolled / total)) : 1;
       setProgress(p);

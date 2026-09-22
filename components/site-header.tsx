@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { contact } from "@/lib/data";
@@ -14,6 +17,15 @@ const whatsappMessage = encodeURIComponent(
 );
 
 export function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 border-b border-transparent bg-transparent">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
@@ -32,7 +44,13 @@ export function SiteHeader() {
           href={`https://wa.me/${contact.whatsapp}?text=${whatsappMessage}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-auto inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 sm:ml-0"
+          aria-hidden={!scrolled}
+          tabIndex={scrolled ? 0 : -1}
+          className={`ml-auto inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all duration-300 hover:opacity-90 sm:ml-0 ${
+            scrolled
+              ? "opacity-100 translate-y-0"
+              : "pointer-events-none -translate-y-2 opacity-0"
+          }`}
         >
           Falar no WhatsApp
           <ArrowRight className="size-4" />
