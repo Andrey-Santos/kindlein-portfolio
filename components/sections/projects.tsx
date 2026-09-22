@@ -11,7 +11,7 @@ export function Projects() {
         <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight">
           Projetos entregues
         </h2>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
           {projects.map((project) => (
             <ProjectCard key={project.name} project={project} />
           ))}
