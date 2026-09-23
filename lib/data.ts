@@ -3,53 +3,57 @@ export type Project = {
   description: string;
   stack: string[];
   url: string;
-  /** Screenshots do projeto. `null` = placeholder ate ter a imagem real. */
-  images: (string | null)[];
+  /** Screenshots do projeto (caminhos em /public). Vazio = mostra o dominio. */
+  images: string[];
+  /** Produto proprio da Kindlein em producao. */
+  own?: boolean;
 };
 
 export const projects: Project[] = [
+  {
+    name: "Kindlein Stock",
+    description: "Sistema de gestão de estoque sob medida.",
+    stack: ["Next.js", "TypeScript", "PostgreSQL"],
+    url: "https://stock.kindlein.business/",
+    images: [],
+    own: true,
+  },
+  {
+    name: "Kindlein Finance",
+    description: "Sistema financeiro para controle de receitas e despesas.",
+    stack: ["Next.js", "TypeScript", "PostgreSQL"],
+    url: "https://finance.kindlein.business/",
+    images: [],
+    own: true,
+  },
   {
     name: "Fabula",
     description:
       "Loja de moda feminina com e-commerce completo: carrinho e checkout.",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://fabula-delta.vercel.app/",
-    images: [null, null, null],
+    images: [],
   },
   {
     name: "Metálica 3W",
     description: "Site institucional para empresa do setor metalúrgico.",
     stack: ["Next.js", "Tailwind CSS"],
     url: "https://3wsite.vercel.app/",
-    images: [null, null, null],
-  },
-  {
-    name: "Kindlein Stock",
-    description: "Sistema de gestão de estoque sob medida.",
-    stack: ["Next.js", "TypeScript", "PostgreSQL"],
-    url: "https://stock.kindlein.business/",
-    images: [null, null, null],
-  },
-  {
-    name: "Kindlein Wallet",
-    description: "Sistema financeiro para controle de receitas e despesas.",
-    stack: ["Next.js", "TypeScript", "PostgreSQL"],
-    url: "https://finance.kindlein.business/",
-    images: [null, null, null],
+    images: [],
   },
   {
     name: "Puffs",
     description: "Loja online voltada pro nicho de pods.",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://puffs.kindlein.business/",
-    images: [null, null, null],
+    images: [],
   },
   {
     name: "Goetten Store",
     description: "Loja online com catálogo e vendas diretas.",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://goetten-store.kindlein.business/",
-    images: [null, null, null],
+    images: [],
   },
 ];
 
@@ -83,8 +87,14 @@ export const services: Service[] = [
 
 export const contact = {
   whatsapp: "5547988762959",
-  whatsappDisplay: "+55 47 98876-2959",
+  whatsappDisplay: "(47) 98876-2959",
+  location: "Santa Catarina, Brasil",
   email: "kindlein.business@gmail.com",
   linkedin: "https://www.linkedin.com/in/andrey-c-santos/",
   github: "https://github.com/Andrey-Santos",
 };
+
+/** Link do WhatsApp com mensagem pronta; usado em todos os CTAs. */
+export const whatsappHref = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+  "Olá! Vi seu portfólio e quero conversar sobre um projeto."
+)}`;

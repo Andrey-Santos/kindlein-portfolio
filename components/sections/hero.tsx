@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { contact } from "@/lib/data";
+import { useLayoutEffect, useRef, useState } from "react";
+import { WhatsAppCta } from "@/components/whatsapp-cta";
 
 const RUNWAY_VH = 200;
 const GAP_PX = 32;
@@ -18,14 +16,16 @@ export function Hero() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(1);
+  const [progress, setProgress] = useState(0);
   const [enabled, setEnabled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [heroRect, setHeroRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
   const [slotRect, setSlotRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
   const stickyHeightRef = useRef(0);
 
-  useEffect(() => {
+  // Layout effects rodam antes do paint: o HTML do servidor (estado estatico,
+  // igual ao p=0) vira o layout animado sem frame intermediario.
+  useLayoutEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mqlWide = window.matchMedia("(min-width: 768px)");
     const update = () => {
@@ -41,7 +41,7 @@ export function Hero() {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!enabled) return;
 
     const measure = () => {
@@ -66,19 +66,25 @@ export function Hero() {
       });
     };
 
-    const onScroll = () => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       const el = scrollAreaRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const wrapperHeight = (window.innerHeight * RUNWAY_VH) / 100;
-      const total = wrapperHeight - (stickyHeightRef.current || window.innerHeight);
+      // -64 (top-16 do sticky): p chega a 1 no instante em que o sticky solta.
+      const total = wrapperHeight - (stickyHeightRef.current || window.innerHeight) - 64;
       const scrolled = -rect.top;
       const p = total > 0 ? Math.min(1, Math.max(0, scrolled / total)) : 1;
       setProgress(p);
     };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
 
     measure();
-    onScroll();
+    update();
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
@@ -86,6 +92,7 @@ export function Hero() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
+      cancelAnimationFrame(frame);
     };
   }, [enabled, isDesktop]);
 
@@ -106,23 +113,33 @@ export function Hero() {
     : undefined;
 
   return (
-    <section id="top" className="relative isolate snap-start scroll-mt-16">
+    // Com animacao, o snap fica em dois marcadores pequenos (inicio e Sobre).
+    // A secao inteira (200vh) como snap vira area "oversized" e libera scroll livre.
+    <section
+      id="top"
+      className={`relative isolate scroll-mt-16 ${enabled ? "" : "snap-start"}`}
+    >
       <div
         ref={scrollAreaRef}
         style={enabled ? { height: `${RUNWAY_VH}vh` } : undefined}
         className="relative"
       >
         {enabled && (
+          <span aria-hidden="true" className="absolute left-0 top-0 size-px snap-start scroll-mt-16" />
+        )}
+        {enabled && (
           <span
             id="sobre"
             aria-hidden="true"
-            className="absolute left-0 scroll-mt-16"
-            style={{ top: `${RUNWAY_VH - 100}vh` }}
+            // size-px: Chrome ignora snap em elemento de tamanho zero.
+            className="absolute left-0 size-px snap-start scroll-mt-16"
+            // Snap exatamente onde p = 1: a foto chega no slot do Sobre.
+            style={{ top: `calc(${RUNWAY_VH}vh - 100svh + 4rem)` }}
           />
         )}
         <div
           ref={stickyRef}
-          className="sticky top-16 flex min-h-[calc(100svh-4rem)] items-start pb-12 pt-16 sm:pt-20 md:pt-24"
+          className="sticky top-16 flex min-h-[calc(100svh-4rem)] items-start pb-12 pt-16 sm:pt-20 md:items-center md:py-12"
         >
           {enabled && (
             <div
@@ -157,31 +174,20 @@ export function Hero() {
           )}
 
           {!enabled && (
-            <div
-              className="absolute inset-x-0 overflow-hidden bg-card"
-              style={{ top: -64, height: 640 }}
-            >
+            <div className="absolute inset-x-0 top-[-64px] h-[640px] overflow-hidden bg-card md:bottom-0 md:left-auto md:h-auto md:w-[46%] md:[mask-image:linear-gradient(to_right,transparent,black_22%)]">
               <Image
                 src="/kindlein-foto.png"
                 alt="Andrey Kindlein"
                 fill
-                sizes="100vw"
+                sizes="(min-width: 768px) 60vw, 100vw"
                 className="object-cover object-top"
                 priority
               />
-              <div aria-hidden="true" className="absolute inset-0 bg-background/55" />
-              <div
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
-              />
+              <div aria-hidden="true" className="absolute inset-0 bg-background/55 md:hidden" />
             </div>
           )}
 
-          <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 px-6 sm:px-12 md:flex-row md:items-start md:justify-between md:gap-8 md:px-16 lg:px-24">
+          <div className="shell flex flex-col items-start gap-10 md:flex-row md:items-center md:justify-between md:gap-8">
             {enabled && isDesktop && (
               <div
                 ref={slotRef}
@@ -195,57 +201,33 @@ export function Hero() {
               className="relative z-20 w-full md:max-w-xl"
             >
               <div
-                style={
-                  enabled
-                    ? { opacity: heroOpacity, pointerEvents: heroOpacity < 0.1 ? "none" : "auto" }
-                    : undefined
-                }
-                className={enabled ? "absolute inset-0" : "relative z-10 -mt-8"}
+                style={enabled ? { opacity: heroOpacity } : undefined}
+                inert={enabled && heroOpacity < 0.1}
+                className={enabled ? "absolute inset-0" : "relative z-10 min-h-[32rem] md:mb-16 md:min-h-0"}
               >
                 <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
                   Andrey Kindlein
                 </p>
                 <p className="animate-fade-in animation-delay-200 mt-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
-                  Full-stack developer
+                  Desenvolvedor full-stack
                 </p>
 
-                <h1 className="animate-fade-in animation-delay-200 mt-8 text-pretty font-mono text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                  Desenvolvimento digital
+                <h1 className="animate-fade-in animation-delay-200 mt-8 text-balance font-mono text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+                  Sites e sistemas
                   <br />
                   <span className="text-primary">sob medida.</span>
                 </h1>
 
-                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-foreground/80 sm:text-lg">
-                  Sites, sistemas e aplicações web desenvolvidos para
-                  transformar necessidades reais em soluções digitais.
+                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base leading-relaxed text-foreground/80 sm:text-lg">
+                  Pra pequenas empresas que precisam vender online, controlar
+                  estoque ou organizar o financeiro. Você fala direto com quem
+                  desenvolve.
                 </p>
 
                 <div className="animate-fade-in animation-delay-600 mt-8">
-                  <Link
-                    href={`https://wa.me/${contact.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/15 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary/25"
-                  >
-                    Falar no WhatsApp
-                    <ArrowRight className="size-4" />
-                  </Link>
+                  <WhatsAppCta />
                 </div>
               </div>
-
-              {!enabled && (
-                <div className="relative mb-10 mt-[260px]">
-                  <Link
-                    href={`https://wa.me/${contact.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/15 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary/25"
-                  >
-                    Falar no WhatsApp
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </div>
-              )}
 
               <div
                 id={enabled ? undefined : "sobre"}
@@ -262,23 +244,22 @@ export function Hero() {
                 <p className="font-mono text-sm text-primary">
                   <span className="text-muted-foreground">$</span> sobre
                 </p>
-                <h2 className="text-3xl font-semibold tracking-tight">
+                <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
                   Experiência que virou solução
                 </h2>
-                <div className="space-y-4 text-muted-foreground">
+                <div className="max-w-prose space-y-4 leading-relaxed text-muted-foreground">
                   <p>
-                    Anos de mercado como desenvolvedor em empresas de
-                    tecnologia me deram uma visão prática de como transformar
-                    problemas reais em soluções que funcionam.
+                    Anos como desenvolvedor em empresas de tecnologia me
+                    ensinaram a transformar problema real em solução que
+                    funciona — não em enfeite.
                   </p>
                   <p>
-                    Comecei no backend — PHP, Delphi, SQL, APIs REST — e
-                    evoluí pro full-stack moderno com React, Next.js e outras
-                    tecnologias atuais.
+                    Comecei no backend (PHP, Delphi, SQL, APIs REST) e evoluí
+                    pro full-stack moderno (React, Next.js).
                   </p>
                   <p>
-                    Hoje, essa experiência é aplicada direto a pequenos
-                    negócios, sob a marca Kindlein — meu sobrenome que virou
+                    Hoje aplico essa bagagem direto no negócio de pequenas
+                    empresas, sob a marca Kindlein — meu sobrenome que virou
                     identidade — com tecnologia sem complicação e sem solução
                     genérica.
                   </p>

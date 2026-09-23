@@ -1,38 +1,26 @@
-import Link from "next/link";
-import { Mail, MessageCircle } from "lucide-react";
-import { contact } from "@/lib/data";
+import { WhatsAppCta } from "@/components/whatsapp-cta";
 
 export function Contact() {
   return (
-    <section id="contato" className="snap-start scroll-mt-16">
-      <div className="mx-auto max-w-5xl px-6 py-20">
-        <p className="font-mono text-sm text-primary">
-          <span className="text-muted-foreground">$</span> contato
-        </p>
-        <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight">
-          Vamos conversar
-        </h2>
-        <p className="mt-4 max-w-2xl text-muted-foreground">
-          Conta o que seu negócio precisa. Respondo por WhatsApp ou e-mail.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <Link
-            href={`https://wa.me/${contact.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            <MessageCircle className="size-4" />
-            {contact.whatsappDisplay}
-          </Link>
-          <Link
-            href={`mailto:${contact.email}`}
-            className="inline-flex items-center gap-2 rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/50"
-          >
-            <Mail className="size-4" />
-            {contact.email}
-          </Link>
+    <section
+      id="contato"
+      className="flex min-h-[calc(100svh-4rem)] snap-start scroll-mt-16 flex-col justify-center"
+    >
+      <div className="shell reveal flex flex-col items-start gap-12 py-16 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="font-heading text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
+            Tem um
+            <br />
+            projeto?
+          </h2>
+          <p className="mt-10 max-w-md text-pretty text-lg leading-relaxed text-muted-foreground">
+            Me conta o que a sua empresa precisa. Se eu não for a pessoa certa
+            pra isso, eu falo na hora.
+          </p>
         </div>
+        <WhatsAppCta className="cta-beam shrink-0 rounded-full border border-primary/35 bg-background px-10 py-6 text-base text-foreground shadow-[0_0_40px_-8px_var(--primary)] hover:bg-card">
+          Chamar no WhatsApp
+        </WhatsAppCta>
       </div>
     </section>
   );

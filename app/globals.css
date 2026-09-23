@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-mono);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-geist-mono);
+  --font-sans: var(--font-jetbrains-mono);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-heading: var(--font-jetbrains-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -64,8 +64,8 @@
   --accent: #10B981;
   --accent-foreground: #0F1115;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: #262A32;
-  --input: #262A32;
+  --border: #30353F;
+  --input: #30353F;
   --ring: #10B981;
   --chart-1: #10B981;
   --chart-2: #9AA0A6;
@@ -86,7 +86,7 @@
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -95,27 +95,115 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 0.8s ease-out forwards;
-  opacity: 0;
+  animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animation-delay-200 {
-  animation-delay: 0.2s;
+  animation-delay: 0.08s;
 }
 
 .animation-delay-400 {
-  animation-delay: 0.4s;
+  animation-delay: 0.16s;
 }
 
 .animation-delay-600 {
-  animation-delay: 0.6s;
+  animation-delay: 0.24s;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in {
     animation: none;
+  }
+}
+
+/* Entrada ligada ao scroll: cada slide monta enquanto chega na tela.
+   Sem suporte (Firefox) ou com reduced-motion, conteudo fica visivel direto. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+    }
+    .reveal + .reveal,
+    .reveal .reveal {
+      animation-range: entry 15% cover 38%;
+    }
+  }
+}
+
+/* Feixe de luz que percorre a borda do CTA final do Contato. */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes beam {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+.cta-beam {
+  position: relative;
+  isolation: isolate;
+}
+
+.cta-beam::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0 72%,
+    var(--primary) 86%,
+    #fff 89%,
+    transparent 92%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 4px var(--primary));
+  pointer-events: none;
+  animation: beam 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-beam::before {
+    animation: none;
+  }
+}
+
+/* Container unico: hero, secoes, header e footer alinham na mesma borda. */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1.5rem;
+  @media (width >= 40rem) {
+    padding-inline: 3rem;
+  }
+  @media (width >= 48rem) {
+    padding-inline: 4rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 6rem;
   }
 }
 
@@ -128,5 +216,14 @@
   }
   html {
     @apply font-sans;
+    scrollbar-color: var(--border) var(--background);
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 35%, transparent);
+    color: var(--foreground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
   }
 }

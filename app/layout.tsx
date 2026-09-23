@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import { SiteGlow } from "@/components/site-glow";
+import { SlideScroll } from "@/components/slide-scroll";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
@@ -44,10 +45,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`dark ${jetbrainsMono.variable} h-full snap-y snap-proximity antialiased`}
+      className={`dark ${jetbrainsMono.variable} h-full snap-y snap-mandatory antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-background text-foreground">
         <SiteGlow />
+        <SlideScroll />
         <div
           aria-hidden="true"
           className="pointer-events-none fixed inset-x-0 top-0 z-40 h-40 bg-gradient-to-b from-background/70 via-background/25 to-transparent"

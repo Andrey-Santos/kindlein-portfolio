@@ -9,13 +9,22 @@ export function SiteGlow() {
   const [xPercent, setXPercent] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       const t = (1 - Math.cos((window.scrollY / PERIOD_PX) * Math.PI)) / 2;
       setXPercent(t * 100);
     };
-    onScroll();
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (

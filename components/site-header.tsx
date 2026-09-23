@@ -1,9 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { contact } from "@/lib/data";
 
 const navItems = [
   { href: "#sobre", label: "Sobre" },
@@ -12,54 +7,30 @@ const navItems = [
   { href: "#contato", label: "Contato" },
 ];
 
-const whatsappMessage = encodeURIComponent(
-  "Olá! Vi seu portfólio e quero conversar sobre um projeto."
-);
-const whatsappHref = `https://wa.me/${contact.whatsapp}?text=${whatsappMessage}`;
-
 export function SiteHeader() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <header className="sticky top-0 z-50 border-b border-transparent">
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-gradient-to-b from-background/45 via-background/15 to-transparent"
       />
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
-        <nav className="flex gap-3 font-mono text-xs font-medium text-foreground sm:gap-8 sm:text-sm">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="transition-colors hover:text-primary"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-center gap-1 px-4 font-mono text-xs font-medium text-foreground sm:gap-6 sm:px-12 sm:text-sm md:px-16 lg:px-24">
         <Link
-          href={whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`inline-flex shrink-0 translate-y-0 items-center gap-2 rounded-full border border-primary/60 bg-primary/15 px-3 py-2 text-xs font-semibold text-primary opacity-100 transition-all duration-300 hover:bg-primary/25 sm:px-4 sm:text-sm ${
-            scrolled
-              ? "sm:opacity-100 sm:translate-y-0"
-              : "sm:pointer-events-none sm:-translate-y-2 sm:opacity-0"
-          }`}
+          href="#top"
+          className="mr-4 hidden py-3 text-primary transition-colors hover:text-foreground lg:inline"
         >
-          <span className="hidden sm:inline">Falar no WhatsApp</span>
-          <span className="sm:hidden">WhatsApp</span>
-          <ArrowRight className="size-4" />
+          ~/kindlein
         </Link>
-      </div>
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="px-1.5 py-3 transition-colors hover:text-primary sm:px-0"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }
