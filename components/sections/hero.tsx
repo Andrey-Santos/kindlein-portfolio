@@ -149,7 +149,7 @@ export function Hero() {
               {!isDesktop && (
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 bg-background/25"
+                  className="absolute inset-0 bg-background/55"
                   style={{ opacity: 1 - p }}
                 />
               )}
@@ -169,7 +169,7 @@ export function Hero() {
                 className="object-cover object-top"
                 priority
               />
-              <div aria-hidden="true" className="absolute inset-0 bg-background/25" />
+              <div aria-hidden="true" className="absolute inset-0 bg-background/55" />
               <div
                 aria-hidden="true"
                 className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
