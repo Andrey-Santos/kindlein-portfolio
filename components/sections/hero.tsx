@@ -162,7 +162,7 @@ export function Hero() {
                     ? { opacity: heroOpacity, pointerEvents: heroOpacity < 0.1 ? "none" : "auto" }
                     : undefined
                 }
-                className={enabled ? "absolute inset-0" : "relative mb-16"}
+                className={enabled ? "absolute inset-0" : "relative z-10 mb-6"}
               >
                 <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
                   Andrey Kindlein
@@ -196,7 +196,7 @@ export function Hero() {
               </div>
 
               {!enabled && (
-                <div className="relative -mx-6 mb-10 aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
+                <div className="relative -mx-6 -mt-16 mb-10 aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
                   <Image
                     src="/kindlein-foto.png"
                     alt="Andrey Kindlein"
@@ -204,6 +204,10 @@ export function Hero() {
                     sizes="100vw"
                     className="object-cover object-top"
                     priority
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
                   />
                   <div
                     aria-hidden="true"
