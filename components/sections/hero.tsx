@@ -17,6 +17,7 @@ export function Hero() {
   const slotRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(1);
   const [enabled, setEnabled] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [heroRect, setHeroRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
   const [slotRect, setSlotRect] = useState<Rect>({ top: 0, left: 0, width: 0, height: 0 });
   const stickyHeightRef = useRef(0);
@@ -24,7 +25,10 @@ export function Hero() {
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mqlWide = window.matchMedia("(min-width: 768px)");
-    const update = () => setEnabled(!mql.matches && mqlWide.matches);
+    const update = () => {
+      setEnabled(!mql.matches);
+      setIsDesktop(mqlWide.matches);
+    };
     update();
     mql.addEventListener("change", update);
     mqlWide.addEventListener("change", update);
@@ -44,12 +48,12 @@ export function Hero() {
       const stickyBox = sticky.getBoundingClientRect();
       const slotBox = slot.getBoundingClientRect();
       stickyHeightRef.current = stickyBox.height;
-      const heroWidth = stickyBox.width * HERO_WIDTH_RATIO;
+      const heroWidth = isDesktop ? stickyBox.width * HERO_WIDTH_RATIO : stickyBox.width;
       setHeroRect({
         top: -64,
-        left: stickyBox.width - heroWidth,
+        left: isDesktop ? stickyBox.width - heroWidth : 0,
         width: heroWidth,
-        height: stickyBox.height + 64,
+        height: isDesktop ? stickyBox.height + 64 : 640,
       });
       setSlotRect({
         top: slotBox.top - stickyBox.top,
@@ -80,12 +84,12 @@ export function Hero() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
     };
-  }, [enabled]);
+  }, [enabled, isDesktop]);
 
   const p = enabled ? progress : 1;
   const heroOpacity = Math.max(0, 1 - p / 0.3);
   const aboutOpacity = Math.min(1, Math.max(0, (p - 0.5) / 0.4));
-  const textShift = -(slotRect.width + GAP_PX) * (1 - p);
+  const textShift = isDesktop ? -(slotRect.width + GAP_PX) * (1 - p) : 0;
 
   const photoTop = lerp(heroRect.top, slotRect.top, p);
   const photoLeft = lerp(heroRect.left, slotRect.left, p);
@@ -94,7 +98,9 @@ export function Hero() {
   const borderRadiusRem = p * 0.75;
   const borderAlpha = p * 0.25;
   const leftFadeStop = 22 - 22 * p;
-  const edgeFade = `linear-gradient(to right, transparent 0%, black ${leftFadeStop}%)`;
+  const edgeFade = isDesktop
+    ? `linear-gradient(to right, transparent 0%, black ${leftFadeStop}%)`
+    : undefined;
 
   return (
     <section id="top" className="relative isolate snap-start scroll-mt-16">
@@ -133,10 +139,24 @@ export function Hero() {
                 src="/kindlein-foto.png"
                 alt="Andrey Kindlein"
                 fill
-                sizes="60vw"
+                sizes={isDesktop ? "60vw" : "100vw"}
                 className="object-cover object-top"
                 priority
               />
+              {!isDesktop && (
+                <>
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-background/25"
+                    style={{ opacity: 1 - p }}
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
+                    style={{ opacity: 1 - p }}
+                  />
+                </>
+              )}
             </div>
           )}
 
@@ -166,7 +186,7 @@ export function Hero() {
           )}
 
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 px-6 sm:px-12 md:flex-row md:items-start md:justify-between md:gap-8 md:px-16 lg:px-24">
-            {enabled && (
+            {enabled && isDesktop && (
               <div
                 ref={slotRef}
                 aria-hidden="true"
@@ -176,7 +196,7 @@ export function Hero() {
 
             <div
               style={enabled ? { transform: `translateX(${textShift}px)` } : undefined}
-              className="relative w-full md:max-w-xl"
+              className="relative z-20 w-full md:max-w-xl"
             >
               <div
                 style={
@@ -212,6 +232,13 @@ export function Hero() {
                 style={enabled ? { opacity: aboutOpacity } : undefined}
                 className="relative scroll-mt-16 space-y-4"
               >
+                {enabled && !isDesktop && (
+                  <div
+                    ref={slotRef}
+                    aria-hidden="true"
+                    className="invisible aspect-[4/5] w-full"
+                  />
+                )}
                 <p className="font-mono text-sm text-primary">
                   <span className="text-muted-foreground">$</span> sobre
                 </p>
