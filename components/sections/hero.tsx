@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { contact } from "@/lib/data";
 
 const RUNWAY_VH = 200;
 const GAP_PX = 32;
@@ -223,9 +226,33 @@ export function Hero() {
                   Sites, sistemas e aplicações web desenvolvidos para
                   transformar necessidades reais em soluções digitais.
                 </p>
+
+                <div className="animate-fade-in animation-delay-600 mt-8">
+                  <Link
+                    href={`https://wa.me/${contact.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/15 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary/25"
+                  >
+                    Falar no WhatsApp
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </div>
               </div>
 
-              {!enabled && <div className="mb-10 mt-[260px]" aria-hidden="true" />}
+              {!enabled && (
+                <div className="relative mb-10 mt-[260px]">
+                  <Link
+                    href={`https://wa.me/${contact.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/15 px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary/25"
+                  >
+                    Falar no WhatsApp
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </div>
+              )}
 
               <div
                 id={enabled ? undefined : "sobre"}
