@@ -151,7 +151,7 @@ export function Hero() {
                 className="invisible aspect-[4/5] w-72 shrink-0 sm:w-96 md:w-[28rem]"
               />
             ) : (
-              <div className="relative -mx-6 -mt-16 aspect-[3/4] w-[calc(100%+3rem)] shrink-0 overflow-hidden bg-card sm:-mx-12 sm:-mt-20 sm:w-[calc(100%+6rem)]">
+              <div className="relative order-2 -mx-6 mt-10 aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] shrink-0 overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
                 <Image
                   src="/kindlein-foto.png"
                   alt="Andrey Kindlein"
@@ -169,7 +169,7 @@ export function Hero() {
 
             <div
               style={enabled ? { transform: `translateX(${textShift}px)` } : undefined}
-              className="relative w-full md:max-w-xl"
+              className="relative order-1 w-full md:max-w-xl"
             >
               <div
                 style={
