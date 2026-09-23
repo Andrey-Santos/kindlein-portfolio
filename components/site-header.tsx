@@ -49,7 +49,7 @@ export function SiteHeader() {
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex shrink-0 translate-y-0 items-center gap-2 rounded-full bg-primary px-3 py-2 text-xs font-medium text-primary-foreground opacity-100 transition-all duration-300 hover:opacity-90 sm:px-4 sm:text-sm ${
+          className={`inline-flex shrink-0 translate-y-0 items-center gap-2 rounded-full border border-primary/40 bg-card px-3 py-2 text-xs font-medium text-primary opacity-100 transition-all duration-300 hover:bg-primary/10 sm:px-4 sm:text-sm ${
             scrolled
               ? "sm:opacity-100 sm:translate-y-0"
               : "sm:pointer-events-none sm:-translate-y-2 sm:opacity-0"

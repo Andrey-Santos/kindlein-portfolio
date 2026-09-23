@@ -202,46 +202,37 @@ export function Hero() {
                   <span className="text-primary">sob medida.</span>
                 </h1>
 
+                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-muted-foreground sm:text-lg">
+                  Sites, sistemas e aplicações web desenvolvidos para
+                  transformar necessidades reais em soluções digitais.
+                </p>
+
                 {enabled && (
-                  <>
-                    <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-muted-foreground sm:text-lg">
-                      Sites, sistemas e aplicações web desenvolvidos para
-                      transformar necessidades reais em soluções digitais.
-                    </p>
-
-                    <div className="animate-fade-in animation-delay-600 mt-8">
-                      <Link
-                        href={`https://wa.me/${contact.whatsapp}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                      >
-                        Falar no WhatsApp
-                        <ArrowRight className="size-4" />
-                      </Link>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {!enabled && (
-                <div className="relative mb-10 mt-[300px]">
-                  <p className="text-pretty text-base text-muted-foreground sm:text-lg">
-                    Sites, sistemas e aplicações web desenvolvidos para
-                    transformar necessidades reais em soluções digitais.
-                  </p>
-
-                  <div className="mt-8">
+                  <div className="animate-fade-in animation-delay-600 mt-8">
                     <Link
                       href={`https://wa.me/${contact.whatsapp}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                      className="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-card px-6 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
                     >
                       Falar no WhatsApp
                       <ArrowRight className="size-4" />
                     </Link>
                   </div>
+                )}
+              </div>
+
+              {!enabled && (
+                <div className="relative mb-10 mt-[260px]">
+                  <Link
+                    href={`https://wa.me/${contact.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-card px-6 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                  >
+                    Falar no WhatsApp
+                    <ArrowRight className="size-4" />
+                  </Link>
                 </div>
               )}
 
