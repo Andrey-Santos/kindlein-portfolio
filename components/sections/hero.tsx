@@ -156,10 +156,9 @@ export function Hero() {
                 className="object-cover object-top"
                 priority
               />
-              <div aria-hidden="true" className="absolute inset-0 bg-background/25" />
               <div
                 aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
+                className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-background/90 to-transparent"
               />
               <div
                 aria-hidden="true"
@@ -192,7 +191,7 @@ export function Hero() {
                 <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
                   Andrey Kindlein
                 </p>
-                <p className="animate-fade-in animation-delay-200 mt-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                <p className="animate-fade-in animation-delay-200 mt-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
                   Full-stack developer
                 </p>
 
