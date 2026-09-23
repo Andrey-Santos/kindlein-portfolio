@@ -156,6 +156,7 @@ export function Hero() {
                 className="object-cover object-top"
                 priority
               />
+              <div aria-hidden="true" className="absolute inset-0 bg-background/25" />
               <div
                 aria-hidden="true"
                 className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
@@ -186,7 +187,7 @@ export function Hero() {
                     ? { opacity: heroOpacity, pointerEvents: heroOpacity < 0.1 ? "none" : "auto" }
                     : undefined
                 }
-                className={enabled ? "absolute inset-0" : "relative z-10"}
+                className={enabled ? "absolute inset-0" : "relative z-10 -mt-8"}
               >
                 <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
                   Andrey Kindlein
