@@ -215,7 +215,7 @@ export function Hero() {
                   <span className="text-primary">sob medida.</span>
                 </h1>
 
-                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-muted-foreground sm:text-lg">
+                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-foreground/80 sm:text-lg">
                   Sites, sistemas e aplicações web desenvolvidos para
                   transformar necessidades reais em soluções digitais.
                 </p>
