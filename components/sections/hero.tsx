@@ -144,32 +144,17 @@ export function Hero() {
           )}
 
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 px-6 sm:px-12 md:flex-row md:items-start md:justify-between md:gap-8 md:px-16 lg:px-24">
-            {enabled ? (
+            {enabled && (
               <div
                 ref={slotRef}
                 aria-hidden="true"
                 className="invisible aspect-[4/5] w-72 shrink-0 sm:w-96 md:w-[28rem]"
               />
-            ) : (
-              <div className="relative order-2 -mx-6 mt-10 aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] shrink-0 overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
-                <Image
-                  src="/kindlein-foto.png"
-                  alt="Andrey Kindlein"
-                  fill
-                  sizes="100vw"
-                  className="object-cover object-top"
-                  priority
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
-                />
-              </div>
             )}
 
             <div
               style={enabled ? { transform: `translateX(${textShift}px)` } : undefined}
-              className="relative order-1 w-full md:max-w-xl"
+              className="relative w-full md:max-w-xl"
             >
               <div
                 style={
@@ -209,6 +194,23 @@ export function Hero() {
                   </Link>
                 </div>
               </div>
+
+              {!enabled && (
+                <div className="relative -mx-6 mb-10 aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
+                  <Image
+                    src="/kindlein-foto.png"
+                    alt="Andrey Kindlein"
+                    fill
+                    sizes="100vw"
+                    className="object-cover object-top"
+                    priority
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
+                  />
+                </div>
+              )}
 
               <div
                 id={enabled ? undefined : "sobre"}
