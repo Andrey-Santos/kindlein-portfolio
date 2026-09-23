@@ -4,13 +4,14 @@ import { contact, whatsappHref } from "@/lib/data";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { LinkedinIcon } from "@/components/icons/linkedin-icon";
 import { GithubIcon } from "@/components/icons/github-icon";
+import { KindleinSignature } from "@/components/kindlein-signature";
 
 const iconLink =
   "inline-flex size-11 items-center justify-center rounded-md transition-colors hover:text-primary";
 
 export function SiteFooter() {
   return (
-    <footer className="snap-end">
+    <footer>
       <div className="shell">
         <div className="border-t border-border/60" />
       </div>
@@ -27,6 +28,19 @@ export function SiteFooter() {
               className="transition-colors hover:text-primary"
             >
               {contact.whatsappDisplay}
+            </Link>
+          </dd>
+        </div>
+        <div>
+          <dt className="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            E-mail
+          </dt>
+          <dd className="mt-2">
+            <Link
+              href={`mailto:${contact.email}`}
+              className="break-all transition-colors hover:text-primary"
+            >
+              {contact.email}
             </Link>
           </dd>
         </div>
@@ -82,7 +96,7 @@ export function SiteFooter() {
             <GithubIcon className="size-4" />
           </Link>
         </div>
-        <p className="font-mono text-xs">kindlein.business</p>
+        <KindleinSignature />
       </div>
     </footer>
   );

@@ -75,7 +75,7 @@ export function SlideScroll() {
 
       // Secao mais alta que a tela (Projetos): rola livre por dentro; o tick
       // que passaria da borda vira a transicao animada pro slide seguinte.
-      const insideTall = [...document.querySelectorAll<HTMLElement>("section.snap-start")].some(
+      const insideTall = [...document.querySelectorAll<HTMLElement>(".snap-start:not(span)")].some(
         (el) => {
           const r = el.getBoundingClientRect();
           const line = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
@@ -94,7 +94,7 @@ export function SlideScroll() {
 
       // Subindo pra uma secao alta: para no fim dela, nao no topo.
       if (!down) {
-        const tall = [...document.querySelectorAll<HTMLElement>("section.snap-start")].find(
+        const tall = [...document.querySelectorAll<HTMLElement>(".snap-start:not(span)")].find(
           (el) => {
             const r = el.getBoundingClientRect();
             return r.height > window.innerHeight && r.bottom <= window.innerHeight + 2;

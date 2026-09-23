@@ -16,7 +16,7 @@ export function WhatsAppCta({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex min-h-11 items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85",
+        "cta-beam inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/35 bg-background px-7 py-3.5 text-sm font-semibold text-foreground shadow-[0_0_40px_-8px_var(--primary)] transition-colors hover:bg-card",
         className
       )}
     >

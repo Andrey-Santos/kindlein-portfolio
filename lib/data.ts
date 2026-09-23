@@ -88,7 +88,7 @@ export const services: Service[] = [
 export const contact = {
   whatsapp: "5547988762959",
   whatsappDisplay: "(47) 98876-2959",
-  location: "Santa Catarina, Brasil",
+  location: "Rio do Sul – SC, Brasil",
   email: "kindlein.business@gmail.com",
   linkedin: "https://www.linkedin.com/in/andrey-c-santos/",
   github: "https://github.com/Andrey-Santos",

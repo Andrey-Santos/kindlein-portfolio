@@ -13,9 +13,12 @@ export default function Home() {
         <Hero />
         <Projects />
         <Services />
-        <Contact />
+        {/* Contato + rodape formam um slide so. */}
+        <div className="flex min-h-[calc(100svh-4rem)] snap-start scroll-mt-16 flex-col">
+          <Contact />
+          <SiteFooter />
+        </div>
       </main>
-      <SiteFooter />
     </>
   );
 }

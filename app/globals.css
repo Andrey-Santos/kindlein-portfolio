@@ -134,11 +134,8 @@
     .reveal {
       animation: reveal linear both;
       animation-timeline: view();
-      animation-range: entry 5% cover 30%;
-    }
-    .reveal + .reveal,
-    .reveal .reveal {
-      animation-range: entry 15% cover 38%;
+      /* Termina quando o elemento entra inteiro: nada fica apagado no pe da tela. */
+      animation-range: entry 0% entry 90%;
     }
   }
 }
