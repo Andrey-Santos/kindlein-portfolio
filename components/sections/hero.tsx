@@ -156,9 +156,10 @@ export function Hero() {
                 className="object-cover object-top"
                 priority
               />
+              <div aria-hidden="true" className="absolute inset-0 bg-background/25" />
               <div
                 aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-background/90 to-transparent"
+                className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
               />
               <div
                 aria-hidden="true"
