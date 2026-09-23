@@ -143,6 +143,30 @@ export function Hero() {
             </div>
           )}
 
+          {!enabled && (
+            <div
+              className="absolute inset-x-0 overflow-hidden bg-card"
+              style={{ top: -64, height: 640 }}
+            >
+              <Image
+                src="/kindlein-foto.png"
+                alt="Andrey Kindlein"
+                fill
+                sizes="100vw"
+                className="object-cover object-top"
+                priority
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
+              />
+            </div>
+          )}
+
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-10 px-6 sm:px-12 md:flex-row md:items-start md:justify-between md:gap-8 md:px-16 lg:px-24">
             {enabled && (
               <div
@@ -200,28 +224,7 @@ export function Hero() {
               </div>
 
               {!enabled && (
-                <div className="relative -mx-6 -mt-[200px] aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
-                  <Image
-                    src="/kindlein-foto.png"
-                    alt="Andrey Kindlein"
-                    fill
-                    sizes="100vw"
-                    className="object-cover object-top"
-                    priority
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
-                  />
-                </div>
-              )}
-
-              {!enabled && (
-                <div className="relative mb-10 mt-6">
+                <div className="relative mb-10 mt-[300px]">
                   <p className="text-pretty text-base text-muted-foreground sm:text-lg">
                     Sites, sistemas e aplicações web desenvolvidos para
                     transformar necessidades reais em soluções digitais.
