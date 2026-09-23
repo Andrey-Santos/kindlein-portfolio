@@ -162,7 +162,7 @@ export function Hero() {
                     ? { opacity: heroOpacity, pointerEvents: heroOpacity < 0.1 ? "none" : "auto" }
                     : undefined
                 }
-                className={enabled ? "absolute inset-0" : "relative z-10 mb-6"}
+                className={enabled ? "absolute inset-0" : "relative z-10"}
               >
                 <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
                   Andrey Kindlein
@@ -177,26 +177,30 @@ export function Hero() {
                   <span className="text-primary">sob medida.</span>
                 </h1>
 
-                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-muted-foreground sm:text-lg">
-                  Sites, sistemas e aplicações web desenvolvidos para
-                  transformar necessidades reais em soluções digitais.
-                </p>
+                {enabled && (
+                  <>
+                    <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base text-muted-foreground sm:text-lg">
+                      Sites, sistemas e aplicações web desenvolvidos para
+                      transformar necessidades reais em soluções digitais.
+                    </p>
 
-                <div className="animate-fade-in animation-delay-600 mt-8">
-                  <Link
-                    href={`https://wa.me/${contact.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                  >
-                    Falar no WhatsApp
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </div>
+                    <div className="animate-fade-in animation-delay-600 mt-8">
+                      <Link
+                        href={`https://wa.me/${contact.whatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                      >
+                        Falar no WhatsApp
+                        <ArrowRight className="size-4" />
+                      </Link>
+                    </div>
+                  </>
+                )}
               </div>
 
               {!enabled && (
-                <div className="relative -mx-6 -mt-16 mb-10 aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
+                <div className="relative -mx-6 -mt-[200px] aspect-[3/4] min-h-[420px] w-[calc(100%+3rem)] overflow-hidden bg-card sm:-mx-12 sm:w-[calc(100%+6rem)]">
                   <Image
                     src="/kindlein-foto.png"
                     alt="Andrey Kindlein"
@@ -213,6 +217,27 @@ export function Hero() {
                     aria-hidden="true"
                     className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background"
                   />
+                </div>
+              )}
+
+              {!enabled && (
+                <div className="relative mb-10 mt-6">
+                  <p className="text-pretty text-base text-muted-foreground sm:text-lg">
+                    Sites, sistemas e aplicações web desenvolvidos para
+                    transformar necessidades reais em soluções digitais.
+                  </p>
+
+                  <div className="mt-8">
+                    <Link
+                      href={`https://wa.me/${contact.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                    >
+                      Falar no WhatsApp
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </div>
                 </div>
               )}
 
