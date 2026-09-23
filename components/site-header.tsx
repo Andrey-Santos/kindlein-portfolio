@@ -49,12 +49,10 @@ export function SiteHeader() {
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          aria-hidden={!scrolled}
-          tabIndex={scrolled ? 0 : -1}
-          className={`inline-flex shrink-0 items-center gap-2 rounded-full bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all duration-300 hover:opacity-90 sm:px-4 sm:text-sm ${
+          className={`inline-flex shrink-0 translate-y-0 items-center gap-2 rounded-full bg-primary px-3 py-2 text-xs font-medium text-primary-foreground opacity-100 transition-all duration-300 hover:opacity-90 sm:px-4 sm:text-sm ${
             scrolled
-              ? "opacity-100 translate-y-0"
-              : "pointer-events-none -translate-y-2 opacity-0"
+              ? "sm:opacity-100 sm:translate-y-0"
+              : "sm:pointer-events-none sm:-translate-y-2 sm:opacity-0"
           }`}
         >
           <span className="hidden sm:inline">Falar no WhatsApp</span>
