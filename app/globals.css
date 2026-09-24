@@ -191,16 +191,16 @@
 @utility shell {
   margin-inline: auto;
   width: 100%;
-  max-width: 72rem;
+  max-width: 90rem;
   padding-inline: 1.5rem;
   @media (width >= 40rem) {
-    padding-inline: 3rem;
-  }
-  @media (width >= 48rem) {
-    padding-inline: 4rem;
+    padding-inline: 2.5rem;
   }
   @media (width >= 64rem) {
-    padding-inline: 6rem;
+    padding-inline: 4rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 5rem;
   }
 }
 
@@ -223,4 +223,4 @@
     outline: 2px solid var(--ring);
     outline-offset: 3px;
   }
-}
+}

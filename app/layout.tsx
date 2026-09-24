@@ -7,6 +7,7 @@ import "./globals.css";
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 const siteUrl = "https://kindlein.business";
