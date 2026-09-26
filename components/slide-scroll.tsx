@@ -65,6 +65,8 @@ export function SlideScroll() {
         return;
       }
       if (Math.abs(e.deltaY) < 4) return;
+      // Pagina sem nenhum marcador de slide (ex.: /projetos/[slug]): nada a fazer aqui.
+      if (!document.querySelector(".snap-start, .snap-end")) return;
 
       // Quem usa roda/trackpad fica 100% no controle do JS: o snap nativo do CSS
       // faria a saida de secoes altas (Projetos) num pulo rapido.

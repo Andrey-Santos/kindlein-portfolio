@@ -56,7 +56,8 @@ export function Hero() {
         top: -64,
         left: isDesktop ? stickyBox.width - heroWidth : 0,
         width: heroWidth,
-        height: isDesktop ? stickyBox.height + 64 : 640,
+        // Mobile: foto vai ate o fim da tela (antes parava em 640px e sobrava faixa vazia).
+        height: isDesktop ? stickyBox.height + 64 : window.innerHeight,
       });
       setSlotRect({
         top: slotBox.top - stickyBox.top,
@@ -174,7 +175,7 @@ export function Hero() {
           )}
 
           {!enabled && (
-            <div className="absolute inset-x-0 top-[-64px] h-[640px] overflow-hidden bg-card md:bottom-0 md:left-auto md:h-auto md:w-[46%] md:[mask-image:linear-gradient(to_right,transparent,black_22%)]">
+            <div className="absolute inset-x-0 top-[-64px] h-svh overflow-hidden bg-card md:bottom-0 md:left-auto md:h-auto md:w-[46%] md:[mask-image:linear-gradient(to_right,transparent,black_22%)]">
               <Image
                 src="/kindlein-foto.png"
                 alt="Andrey Kindlein"

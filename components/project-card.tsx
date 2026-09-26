@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ProjectCarousel } from "@/components/project-carousel";
 import type { Project } from "@/lib/data";
@@ -31,15 +31,24 @@ export function ProjectCard({ project }: { project: Project }) {
             </Badge>
           ))}
         </div>
-        <Link
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-1 inline-flex min-h-11 items-center gap-1 self-start text-sm font-medium text-foreground transition-colors hover:text-primary group-hover:text-primary"
-        >
-          Ver projeto
-          <ArrowUpRight className="size-4" />
-        </Link>
+        <div className="mt-1 flex flex-wrap items-center gap-x-6">
+          <Link
+            href={`/projetos/${project.slug}`}
+            className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-foreground"
+          >
+            Ver detalhes
+            <ArrowRight className="size-4" />
+          </Link>
+          <Link
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+          >
+            Ao vivo
+            <ArrowUpRight className="size-4" />
+          </Link>
+        </div>
       </div>
     </div>
   );
