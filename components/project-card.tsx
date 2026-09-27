@@ -40,15 +40,16 @@ export function ProjectCard({ project }: { project: Project }) {
             {project.kind}
             {project.own && " · produto próprio"}
           </p>
-          <span aria-hidden="true" className="mt-3 block h-0.5 w-8 rounded-full bg-primary" />
+          <span aria-hidden="true" className="mt-3 block h-0.5 w-8 rounded-full bg-white/20 transition-colors group-hover:bg-primary" />
           <p className="mt-3 text-pretty text-sm leading-relaxed text-white/70">
             {project.description}
           </p>
         </div>
       </div>
 
-      {/* Rodape do proprio card: faixa de ponta a ponta com o verde subindo do pe. */}
-      <span className="mt-6 flex items-center justify-center gap-2 bg-[radial-gradient(ellipse_70%_140%_at_50%_100%,rgb(16_185_129/0.14),transparent_70%)] py-4 text-sm font-medium text-white transition-colors group-hover:text-primary">
+      {/* Rodape do proprio card. Parado fica neutro (a capa ja traz a cor do projeto);
+          o verde da marca aparece so no hover. */}
+      <span className="relative mt-2 flex items-center justify-center gap-2 pb-4 pt-3 text-sm font-medium text-white/85 transition-colors before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_70%_140%_at_50%_100%,rgb(16_185_129/0.2),transparent_70%)] before:opacity-0 before:transition-opacity group-hover:text-primary group-hover:before:opacity-100">
         Ver detalhes
         <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-1" />
       </span>
