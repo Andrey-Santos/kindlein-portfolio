@@ -10,8 +10,8 @@ export function Projects() {
     >
       <div className="shell py-16">
         <div className="reveal">
-          <p className="font-mono text-sm text-primary">
-            <span className="text-muted-foreground">$</span> projetos
+          <p className="font-mono text-sm text-muted-foreground">
+            <span className="text-primary">$</span> projetos
           </p>
           <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
             Projetos entregues

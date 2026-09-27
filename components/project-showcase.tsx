@@ -22,17 +22,22 @@ export function ProjectShowcase({
   name,
   domain,
   screens,
+  cover,
   header,
-  meta,
-  cta,
+  aside,
+  body,
   next,
 }: {
   name: string;
   domain: string;
   screens: Screen[];
+  cover: string;
+  /** Titulo e resumo curto (topo da lateral / topo no mobile). */
   header: React.ReactNode;
-  meta: React.ReactNode;
-  cta: React.ReactNode;
+  /** CTA e link ao vivo, logo abaixo do resumo. */
+  aside: React.ReactNode;
+  /** Texto completo do case, abaixo das telas. */
+  body: React.ReactNode;
   next: React.ReactNode;
 }) {
   const [index, setIndex] = useState(0);
@@ -50,13 +55,25 @@ export function ProjectShowcase({
     return () => mql.removeEventListener("change", update);
   }, []);
 
-  const viewer = (
+  const main = (
     <>
+      <div className="relative aspect-video overflow-hidden rounded-xl border border-border">
+        <Image
+          src={cover}
+          alt={`${name}, capa`}
+          fill
+          priority
+          sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
+          className="object-cover"
+        />
+      </div>
+
       {hasTabs && (
         <div
           role="tablist"
           aria-label="Telas do projeto"
-          className="-mx-1 mb-4 flex gap-2 overflow-x-auto px-1 pb-1 lg:hidden"
+          // Fade na direita avisa que as abas continuam ao arrastar.
+          className="-mx-1 mb-4 mt-10 flex gap-2 overflow-x-auto px-1 pb-1 [mask-image:linear-gradient(to_right,black_80%,transparent)] lg:hidden"
         >
           {screens.map((s, i) => (
             <button
@@ -80,7 +97,7 @@ export function ProjectShowcase({
         </div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <div className={`overflow-hidden rounded-xl border border-border bg-card ${hasTabs ? "lg:mt-10" : "mt-10"}`}>
         <div className="flex items-center gap-3 border-b border-border px-4 py-3">
           <span aria-hidden="true" className="flex gap-1.5">
             <span className="size-2.5 rounded-full bg-foreground/15" />
@@ -108,11 +125,12 @@ export function ProjectShowcase({
             width={screen.width}
             height={screen.height}
             sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
-            priority={index === 0}
             className="h-auto w-full"
           />
         </div>
       </div>
+
+      <div className="mt-12">{body}</div>
     </>
   );
 
@@ -120,11 +138,8 @@ export function ProjectShowcase({
     <div className="lg:flex lg:items-start lg:gap-14">
       <aside className="lg:sticky lg:top-24 lg:w-[22rem] lg:shrink-0">
         {header}
-
-        {!isDesktop && <div className="mt-8">{viewer}</div>}
-
-        <div className="mt-8">{meta}</div>
-        <div className="mt-6">{cta}</div>
+        {!isDesktop && <div className="mt-8">{main}</div>}
+        <div className="mt-8">{aside}</div>
 
         {hasTabs && (
           <nav aria-label="Telas do projeto" className="mt-10 hidden lg:block">
@@ -146,7 +161,7 @@ export function ProjectShowcase({
                         : "border-transparent text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <span className="font-mono text-xs text-primary">{number(i)}</span>
+                    <span className={`font-mono text-xs ${i === index ? "text-primary" : ""}`}>{number(i)}</span>
                     {s.label}
                   </button>
                 </li>
@@ -158,7 +173,7 @@ export function ProjectShowcase({
         <div className="mt-10">{next}</div>
       </aside>
 
-      {isDesktop && <div className="mt-8 min-w-0 flex-1 lg:mt-0">{viewer}</div>}
+      {isDesktop && <div className="min-w-0 flex-1">{main}</div>}
     </div>
   );
 }

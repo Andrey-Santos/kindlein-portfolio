@@ -5,9 +5,12 @@ import { cn } from "@/lib/utils";
 
 export function WhatsAppCta({
   children = "Falar no WhatsApp",
+  featured = false,
   className,
 }: {
   children?: React.ReactNode;
+  /** Brilho verde + feixe animado: so no CTA principal de cada tela. */
+  featured?: boolean;
   className?: string;
 }) {
   return (
@@ -16,7 +19,10 @@ export function WhatsAppCta({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "cta-beam inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/35 bg-background px-7 py-3.5 text-sm font-semibold text-foreground shadow-[0_0_40px_-8px_var(--primary)] transition-colors hover:bg-card",
+        "inline-flex min-h-11 items-center gap-2 rounded-full border bg-background px-7 py-3.5 text-sm font-semibold text-foreground transition-colors",
+        featured
+          ? "cta-beam border-primary/35 shadow-[0_0_40px_-8px_var(--primary)] hover:bg-card"
+          : "border-white/20 hover:border-primary/60 hover:text-primary",
         className
       )}
     >

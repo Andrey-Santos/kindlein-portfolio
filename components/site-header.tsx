@@ -9,7 +9,7 @@ const navItems = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-transparent">
+    <header className="sticky top-0 z-50 border-b border-transparent max-lg:bg-background/75 max-lg:backdrop-blur-md">
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-gradient-to-b from-background/45 via-background/15 to-transparent"

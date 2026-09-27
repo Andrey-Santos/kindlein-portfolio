@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppCta } from "@/components/whatsapp-cta";
@@ -41,57 +40,54 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
           name={project.name}
           domain={domain}
           screens={project.screens}
+          cover={project.cover}
           header={
             <>
               <Link
                 href="/#projetos"
-                className="inline-flex min-h-11 items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+                className="inline-flex min-h-11 items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
                 <ArrowLeft className="size-4" />
                 todos os projetos
               </Link>
-              <p className="mt-6 font-mono text-sm text-primary">
-                <span className="text-muted-foreground">$</span> projetos/{project.slug}
-              </p>
-              <h1 className="mt-3 text-balance font-heading text-4xl font-bold tracking-tight">
+              <h1 className="mt-6 text-balance font-heading text-4xl font-bold tracking-tight">
                 {project.name}
               </h1>
-              {project.own && (
-                <p className="mt-2 font-mono text-xs text-primary">produto próprio · em produção</p>
-              )}
+              <p className="mt-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                {project.kind}
+                {project.own && " · produto próprio"}
+              </p>
               {project.concept && (
-                <p className="mt-2 font-mono text-xs text-muted-foreground">
-                  projeto conceito · não foi publicado pelo cliente
+                <p className="mt-3 inline-block rounded-full border border-border px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-foreground/80">
+                  Projeto conceito · não publicado
                 </p>
               )}
+              <p className="mt-5 text-pretty leading-relaxed text-foreground/80">{project.description}</p>
             </>
           }
-          meta={
-            <>
-              <p className="text-pretty leading-relaxed text-foreground/80">{project.about}</p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {project.stack.map((tech) => (
-                  <Badge
-                    key={tech}
-                    variant="outline"
-                    className="border-border font-mono text-xs font-normal text-muted-foreground"
-                  >
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
+          aside={
+            <div className="flex flex-col items-start gap-4">
+              <WhatsAppCta featured>Quero algo parecido</WhatsAppCta>
               <Link
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex min-h-11 items-center gap-2 font-mono text-sm text-foreground transition-colors hover:text-primary"
+                className="inline-flex min-h-11 items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
-                {domain}
+                ver ao vivo: {domain}
                 <ArrowUpRight className="size-4" />
               </Link>
+            </div>
+          }
+          body={
+            <>
+              <h2 className="font-heading text-2xl font-semibold tracking-tight">Sobre o projeto</h2>
+              <p className="mt-4 max-w-prose text-pretty leading-relaxed text-foreground/80">{project.about}</p>
+              <p className="mt-6 font-mono text-xs text-muted-foreground">
+                Feito com {project.stack.join(" · ")}
+              </p>
             </>
           }
-          cta={<WhatsAppCta>Quero algo parecido</WhatsAppCta>}
           next={
             <Link
               href={`/projetos/${next.slug}`}

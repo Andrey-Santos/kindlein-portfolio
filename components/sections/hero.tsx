@@ -209,7 +209,7 @@ export function Hero() {
                 <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
                   Andrey Kindlein
                 </p>
-                <p className="animate-fade-in animation-delay-200 mt-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
+                <p className="animate-fade-in animation-delay-200 mt-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
                   Desenvolvedor full-stack
                 </p>
 
@@ -242,8 +242,8 @@ export function Hero() {
                     className="invisible aspect-[4/5] w-full"
                   />
                 )}
-                <p className="font-mono text-sm text-primary">
-                  <span className="text-muted-foreground">$</span> sobre
+                <p className="font-mono text-sm text-muted-foreground">
+                  <span className="text-primary">$</span> sobre
                 </p>
                 <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
                   Experiência que virou solução
