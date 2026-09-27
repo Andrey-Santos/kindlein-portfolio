@@ -6,7 +6,8 @@ export function Projects() {
   return (
     <section
       id="projetos"
-      className="flex min-h-[calc(100svh-4rem)] snap-start scroll-mt-16 flex-col justify-center"
+      // Fundo preto solido por cima da fumaca/brilho, com bordas esfumadas pra entrar e sair suave.
+      className="flex min-h-[calc(100svh-4rem)] snap-start scroll-mt-16 flex-col justify-center bg-[linear-gradient(to_bottom,transparent,#050507_10rem,#050507_calc(100%-10rem),transparent)]"
     >
       <div className="shell py-16">
         <div className="reveal">
