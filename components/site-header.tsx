@@ -40,9 +40,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
-        solid ? "border-white/10 bg-[#08090c]/90 backdrop-blur-md" : "border-transparent"
-      }`}
+      className={`sticky top-0 z-50 transition-colors duration-300 ${solid ? "bg-[#08090c]" : ""}`}
     >
       <div
         aria-hidden="true"
@@ -65,13 +63,13 @@ export function SiteHeader() {
               href={item.href}
               aria-current={active === item.href ? "location" : undefined}
               className={`relative px-1.5 py-3 transition-colors hover:text-primary sm:px-0 ${
-                active === item.href ? "text-foreground" : "text-foreground/60"
+                active === item.href ? "text-primary" : "text-foreground/65"
               }`}
             >
               {item.label}
               <span
                 aria-hidden="true"
-                className={`absolute inset-x-1.5 bottom-1.5 h-px bg-primary transition-opacity sm:inset-x-0 ${
+                className={`absolute inset-x-1.5 bottom-1.5 h-0.5 rounded-full bg-primary transition-opacity sm:inset-x-0 ${
                   active === item.href ? "opacity-100" : "opacity-0"
                 }`}
               />
