@@ -66,7 +66,7 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
             </>
           }
           aside={
-            <div className="flex flex-col items-start gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <WhatsAppCta
                 featured
                 source={`projeto:${project.slug}`}
@@ -74,14 +74,17 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
               >
                 Quero algo parecido
               </WhatsAppCta>
+              {/* Acao secundaria: mesmo formato do CTA, sem brilho, pra nao competir. */}
               <Link
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+                title={domain}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-foreground/85 transition-colors hover:border-white/35 hover:text-foreground"
               >
-                ver ao vivo: {domain}
+                Ver ao vivo
                 <ArrowUpRight className="size-4" />
+                <span className="sr-only"> (abre {domain} em nova aba)</span>
               </Link>
             </div>
           }

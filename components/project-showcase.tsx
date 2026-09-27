@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { ZoomViewer } from "@/components/zoom-viewer";
 import type { Screen } from "@/lib/data";
 
 export function ProjectShowcase({
@@ -31,7 +32,6 @@ export function ProjectShowcase({
   const screens: Screen[] = [{ src: cover, label: "Capa", width: 1920, height: 1080 }, ...projectScreens];
   const [index, setIndex] = useState(0);
   const [zoomed, setZoomed] = useState(false);
-  const closeRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLButtonElement>(null);
   const [isDesktop, setIsDesktop] = useState(true);
   const screen = screens[index];
@@ -79,22 +79,9 @@ export function ProjectShowcase({
     };
   }, [hasMany, index]);
 
-  // Ampliar abre por cima da pagina (sem nova aba, o visitante nao sai do site).
+  // Ao fechar a ampliacao, o foco volta pro botao que abriu.
   useEffect(() => {
-    if (!zoomed) return;
-    const opener = openerRef.current;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setZoomed(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-      opener?.focus();
-    };
+    if (!zoomed) openerRef.current?.focus({ preventScroll: true });
   }, [zoomed]);
 
   // Setas esquerda/direita do teclado trocam a tela (a pagina de projeto nao usa slides).
@@ -181,6 +168,7 @@ export function ProjectShowcase({
             width={screen.width}
             height={screen.height}
             sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
+            quality={92}
             priority={index === 0}
             className="h-auto w-full cursor-zoom-in"
           />
@@ -208,65 +196,15 @@ export function ProjectShowcase({
       <div className="mt-12">{body}</div>
 
       {zoomed && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${name}: ${screen.label} ampliada`}
-          className="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-[#050507]/95 backdrop-blur-sm"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setZoomed(false);
-          }}
-        >
-          <div className="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#050507]/90 px-4 py-3 backdrop-blur-md sm:px-8">
-            <span className="min-w-0 truncate font-mono text-xs text-muted-foreground">
-              {screen.label}
-              {hasMany && (
-                <span className="ml-3 tabular-nums">
-                  {index + 1} / {screens.length}
-                </span>
-              )}
-            </span>
-            <div className="flex items-center gap-2">
-              {hasMany &&
-                ([-1, 1] as const).map((dir) => (
-                  <button
-                    key={dir}
-                    type="button"
-                    onClick={() => setIndex((i) => (i + dir + screens.length) % screens.length)}
-                    aria-label={dir < 0 ? "Tela anterior" : "Próxima tela"}
-                    className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-primary/60 hover:text-primary"
-                  >
-                    {dir < 0 ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
-                  </button>
-                ))}
-              <button
-                ref={closeRef}
-                type="button"
-                onClick={() => setZoomed(false)}
-                aria-label="Fechar"
-                className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-primary/60 hover:text-primary"
-              >
-                <X className="size-5" />
-              </button>
-            </div>
-          </div>
-          {/* Desktop: largura real da imagem (ate a tela). Celular: dobro da largura,
-              arrasta pros lados pra ler os detalhes. Prints longos rolam pra baixo. */}
-          <div className="overflow-x-auto px-2 pb-8 sm:px-8">
-            <div className="mx-auto w-[200%] sm:w-auto" style={{ maxWidth: screen.width + 64 }}>
-            <Image
-              key={screen.src}
-              src={screen.src}
-              alt={`${name}, tela: ${screen.label}`}
-              width={screen.width}
-              height={screen.height}
-              sizes="100vw"
-              quality={90}
-              className="h-auto w-full rounded-lg"
-            />
-            </div>
-          </div>
-        </div>
+        <ZoomViewer
+          name={name}
+          screen={screen}
+          index={index}
+          total={screens.length}
+          onPrev={() => setIndex((i) => (i - 1 + screens.length) % screens.length)}
+          onNext={() => setIndex((i) => (i + 1) % screens.length)}
+          onClose={() => setZoomed(false)}
+        />
       )}
     </>
   );
