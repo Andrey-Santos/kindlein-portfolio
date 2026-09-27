@@ -1,23 +1,33 @@
+"use client";
+
 import Link from "next/link";
+import { track } from "@vercel/analytics";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
-import { whatsappHref } from "@/lib/data";
+import { whatsappLink } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export function WhatsAppCta({
   children = "Falar no WhatsApp",
   featured = false,
+  message,
+  source,
   className,
 }: {
   children?: React.ReactNode;
   /** Brilho verde + feixe animado: so no CTA final (Contato) e no da pagina de projeto. */
   featured?: boolean;
+  /** Mensagem pronta especifica; sem ela usa a padrao do portfolio. */
+  message?: string;
+  /** De onde veio o clique, pras metricas (ex.: "hero", "projeto:kabum-puffs"). */
+  source: string;
   className?: string;
 }) {
   return (
     <Link
-      href={whatsappHref}
+      href={whatsappLink(message)}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => track("whatsapp_click", { origem: source })}
       className={cn(
         "inline-flex min-h-11 items-center gap-2 rounded-full border bg-background px-7 py-3.5 text-sm font-semibold text-foreground transition-colors",
         featured

@@ -76,7 +76,7 @@ export const projects: Project[] = [
     cover: "/projects/kabum-capa.webp",
     slug: "kabum-puffs",
     about:
-      "Loja de nicho precisa parecer loja de nicho, não um template genérico com produtos trocados. Construí o catálogo com filtro por marca, estoque e faixa de preço, ficha de produto com escolha de sabor e um carrinho que já resolve entrega ou retirada — com a identidade visual pesada que a marca pedia, não a de uma loja qualquer.",
+      "Loja de nicho precisa parecer loja de nicho, não um template genérico com produtos trocados. Construí o catálogo com filtro por marca, estoque e faixa de preço, ficha de produto com escolha de sabor e um carrinho que já resolve entrega ou retirada. O pagamento é integrado à InfinitePay e ao Asaas — tudo com a identidade visual pesada que a marca pedia, não a de uma loja qualquer.",
     screens: [
       screen("kabum-puffs-home", "Home", 1920, 1788),
       screen("kabum-puffs-catalogo", "Catálogo", 1920, 1513),
@@ -172,7 +172,9 @@ export const contact = {
   github: "https://github.com/Andrey-Santos",
 };
 
-/** Link do WhatsApp com mensagem pronta; usado em todos os CTAs. */
-export const whatsappHref = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
-  "Olá! Vi seu portfólio e quero conversar sobre um projeto."
-)}`;
+/** Link do WhatsApp com mensagem pronta (a padrao, ou uma especifica, ex. por projeto). */
+export const whatsappLink = (
+  message = "Olá! Vi seu portfólio e quero conversar sobre um projeto."
+) => `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`;
+
+export const whatsappHref = whatsappLink();

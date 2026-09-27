@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import { SiteGlow } from "@/components/site-glow";
 import { SlideScroll } from "@/components/slide-scroll";
+import { Analytics } from "@vercel/analytics/next";
+import { siteUrl } from "@/lib/site";
+import { contact } from "@/lib/data";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -10,11 +13,6 @@ const jetbrainsMono = JetBrains_Mono({
   style: ["normal", "italic"],
 });
 
-// Dominio de producao da Vercel (vira kindlein.business sozinho quando ele for
-// configurado); fora da Vercel cai no dominio final.
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "https://kindlein.business";
 
 const description =
   "Andrey Kindlein desenvolve sites institucionais, e-commerce e sistemas sob medida — estoque, financeiro, automações — pra pequenas empresas.";
@@ -46,6 +44,27 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Kindlein — Andrey Kindlein",
+  description,
+  url: siteUrl,
+  image: `${siteUrl}/opengraph-image.jpg`,
+  email: contact.email,
+  telephone: "+55 47 98876-2959",
+  founder: { "@type": "Person", name: "Andrey Kindlein" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Rio do Sul",
+    addressRegion: "SC",
+    addressCountry: "BR",
+  },
+  areaServed: "BR",
+  sameAs: [contact.linkedin, contact.github],
+  knowsAbout: ["Sites institucionais", "E-commerce", "Sistemas de gestão", "Automações"],
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -60,6 +79,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           className="pointer-events-none fixed inset-x-0 top-0 z-40 h-40 bg-gradient-to-b from-background/70 via-background/25 to-transparent"
         />
         {children}
+        <script
+          type="application/ld+json"
+          // Dados estruturados pro Google: profissional local em Rio do Sul.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Analytics />
       </body>
     </html>
   );

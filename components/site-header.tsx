@@ -12,9 +12,10 @@ const navItems = [
 ];
 
 export function SiteHeader() {
-  const isHome = usePathname() === "/";
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState<string | null>(isHome ? null : "/#projetos");
+  const [active, setActive] = useState<string | null>(pathname.startsWith("/projetos") ? "/#projetos" : null);
 
   useEffect(() => {
     const onScroll = () => {

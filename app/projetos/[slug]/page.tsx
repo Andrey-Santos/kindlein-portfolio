@@ -67,7 +67,13 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
           }
           aside={
             <div className="flex flex-col items-start gap-4">
-              <WhatsAppCta featured>Quero algo parecido</WhatsAppCta>
+              <WhatsAppCta
+                featured
+                source={`projeto:${project.slug}`}
+                message={`Olá! Vi o projeto ${project.name} no seu portfólio e quero algo parecido.`}
+              >
+                Quero algo parecido
+              </WhatsAppCta>
               <Link
                 href={project.url}
                 target="_blank"

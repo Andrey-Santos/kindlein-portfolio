@@ -226,7 +226,7 @@ export function Hero() {
                 </p>
 
                 <div className="animate-fade-in animation-delay-3 mt-8">
-                  <WhatsAppCta />
+                  <WhatsAppCta source="hero" />
                 </div>
               </div>
 

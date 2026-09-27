@@ -21,7 +21,7 @@ export function Contact() {
             eu desenvolvo o que ele precisa.
           </p>
         </div>
-        <WhatsAppCta featured className="shrink-0 px-10 py-6 text-base">
+        <WhatsAppCta featured source="contato" className="shrink-0 px-10 py-6 text-base">
           Falar no WhatsApp
         </WhatsAppCta>
       </div>

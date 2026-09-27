@@ -35,7 +35,7 @@ export function Services() {
         </ul>
         <div className="reveal mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
           <p className="text-foreground/80">Não achou o que precisa? Me conta.</p>
-          <WhatsAppCta />
+          <WhatsAppCta source="servicos" />
         </div>
       </div>
     </section>

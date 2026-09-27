@@ -27,7 +27,7 @@ export function Projects() {
         </div>
         <div className="reveal mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
           <p className="text-foreground/80">Precisa de algo parecido?</p>
-          <WhatsAppCta />
+          <WhatsAppCta source="projetos" />
         </div>
       </div>
     </section>
