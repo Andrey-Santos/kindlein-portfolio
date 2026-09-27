@@ -1,12 +1,17 @@
 export type Project = {
   name: string;
+  /** Frase curta de resultado, mostrada no card da home. */
   description: string;
+  /** Tipo do projeto, mostrado no card (ex.: "Sistema", "Loja online"). */
+  kind: string;
   stack: string[];
   url: string;
-  /** Screenshots do projeto (caminhos em /public). Vazio = mostra o dominio. */
-  images: string[];
+  /** Capa do projeto (16:9), usada no card e no compartilhamento. */
+  cover: string;
   /** Produto proprio da Kindlein em producao. */
   own?: boolean;
+  /** Projeto feito como proposta/conceito, sem ter ido pra producao. */
+  concept?: boolean;
   /** URL da pagina do case: /projetos/<slug>. */
   slug: string;
   /** Texto do case, mostrado na pagina do projeto. */
@@ -27,17 +32,11 @@ const screen = (file: string, label: string, width: number, height: number): Scr
 export const projects: Project[] = [
   {
     name: "Kindlein Stock",
-    description: "Sistema de gestão de estoque sob medida.",
+    description: "Gestão de estoque com vendas, compras, caixa e relatórios financeiros num lugar só.",
+    kind: "Sistema",
     stack: ["Next.js", "TypeScript", "PostgreSQL"],
     url: "https://stock.kindlein.business/",
-    images: [
-      "/projects/stock-capa.webp",
-      "/projects/stock-dashboard.webp",
-      "/projects/stock-estoque.webp",
-      "/projects/stock-relatorios.webp",
-      "/projects/stock-financeiro.webp",
-      "/projects/stock-caixas.webp",
-    ],
+    cover: "/projects/stock-capa.webp",
     own: true,
     slug: "kindlein-stock",
     about:
@@ -52,16 +51,11 @@ export const projects: Project[] = [
   },
   {
     name: "Kindlein Wallet",
-    description: "Sistema financeiro para controle de receitas e despesas.",
+    description: "Controle financeiro com contas, cartões e faturas, e app Android que lança Pix e compras pela notificação.",
+    kind: "Sistema",
     stack: ["Next.js", "TypeScript", "PostgreSQL"],
     url: "https://finance.kindlein.business/",
-    images: [
-      "/projects/wallet-capa.webp",
-      "/projects/wallet-dashboard.webp",
-      "/projects/wallet-relatorio.webp",
-      "/projects/wallet-lancamento.webp",
-      "/projects/wallet-contas.webp",
-    ],
+    cover: "/projects/wallet-capa.webp",
     own: true,
     slug: "kindlein-wallet",
     about:
@@ -75,16 +69,11 @@ export const projects: Project[] = [
   },
   {
     name: "Kabum Puffs",
-    description: "Loja online voltada pro nicho de pods.",
+    description: "Venda de pods com catálogo por marca e sabor, carrinho e opção de entrega ou retirada.",
+    kind: "E-commerce",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://puffs.kindlein.business/",
-    images: [
-      "/projects/kabum-capa.webp",
-      "/projects/kabum-home.webp",
-      "/projects/kabum-catalogo.webp",
-      "/projects/kabum-produto.webp",
-      "/projects/kabum-carrinho.webp",
-    ],
+    cover: "/projects/kabum-capa.webp",
     slug: "kabum-puffs",
     about:
       "Loja de nicho precisa parecer loja de nicho, não um template genérico com produtos trocados. Construí o catálogo com filtro por marca, estoque e faixa de preço, ficha de produto com escolha de sabor e um carrinho que já resolve entrega ou retirada — com a identidade visual pesada que a marca pedia, não a de uma loja qualquer.",
@@ -97,15 +86,11 @@ export const projects: Project[] = [
   },
   {
     name: "Goetten Store",
-    description: "Loja online com catálogo e vendas diretas.",
+    description: "Produtos profissionais para lash designers, organizados por coleção.",
+    kind: "E-commerce",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://goetten-store.kindlein.business/",
-    images: [
-      "/projects/goetten-capa.webp",
-      "/projects/goetten-1.webp",
-      "/projects/goetten-2.webp",
-      "/projects/goetten-3.webp",
-    ],
+    cover: "/projects/goetten-capa.webp",
     slug: "goetten-store",
     about:
       "Lash designer compra material com frequência e não tem tempo pra procurar. A loja organiza por coleção, destaca ofertas da semana e os mais vendidos pra encurtar essa decisão, e deixa o WhatsApp sempre à mão pra quem prefere fechar direto com a Goetten.",
@@ -115,16 +100,12 @@ export const projects: Project[] = [
   },
   {
     name: "Fabula",
-    description:
-      "Loja de moda feminina com e-commerce completo: carrinho e checkout.",
+    description: "Moda feminina da loja física de Rio do Sul, com carrinho e checkout.",
+    kind: "E-commerce",
     stack: ["Next.js", "Tailwind CSS", "E-commerce"],
     url: "https://fabula-delta.vercel.app/",
-    images: [
-      "/projects/fabula-capa.webp",
-      "/projects/fabula-1.webp",
-      "/projects/fabula-2.webp",
-      "/projects/fabula-3.webp",
-    ],
+    cover: "/projects/fabula-capa.webp",
+    concept: true,
     slug: "fabula",
     about:
       "Loja física de Rio do Sul, SC, com clientela fiel que ainda não tinha uma vitrine online à altura. O site organiza por categoria, destaca novidades e fecha a venda com carrinho e checkout — mantendo a mesma identidade e o mesmo cuidado da loja física.",
@@ -136,16 +117,12 @@ export const projects: Project[] = [
   },
   {
     name: "Metálica 3W",
-    description: "Site institucional para empresa do setor metalúrgico.",
+    description: "Estruturas metálicas, com o galpão se montando na tela, obras entregues e avaliações.",
+    kind: "Site institucional",
     stack: ["Next.js", "Tailwind CSS"],
     url: "https://3wsite.vercel.app/",
-    images: [
-      "/projects/3w-capa.webp",
-      "/projects/3w-1.webp",
-      "/projects/3w-2.webp",
-      "/projects/3w-3.webp",
-      "/projects/3w-4.webp",
-    ],
+    cover: "/projects/3w-capa.webp",
+    concept: true,
     slug: "metalica-3w",
     about:
       "Empresa de estruturas metálicas com obra forte e site que não mostrava isso. O novo site monta o galpão na tela conforme a página rola — um jeito de mostrar, na prática, o que a 3W constrói — e emenda direto pra prova social: obras entregues e avaliações reais do Google.",

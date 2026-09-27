@@ -17,7 +17,7 @@ export function Projects() {
             Projetos entregues
           </h2>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {projects.map((project) => (
             <div key={project.name} className="reveal flex">
               <ProjectCard project={project} />

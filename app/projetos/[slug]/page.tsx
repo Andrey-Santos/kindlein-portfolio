@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/projetos/[slug]">
   return {
     title: `${project.name} — Andrey Kindlein`,
     description: project.about,
-    openGraph: { images: project.images[0] ? [project.images[0]] : undefined },
+    openGraph: { images: [project.cover] },
   };
 }
 
@@ -58,6 +58,11 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
               </h1>
               {project.own && (
                 <p className="mt-2 font-mono text-xs text-primary">produto próprio · em produção</p>
+              )}
+              {project.concept && (
+                <p className="mt-2 font-mono text-xs text-muted-foreground">
+                  projeto conceito · não foi publicado pelo cliente
+                </p>
               )}
             </>
           }
