@@ -5,7 +5,12 @@ const smooth = (a: number, b: number, v: number) => {
 
 // "Clima" do fundo conforme o scroll: brilho verde no topo e no Contato,
 // fumaca forte no Sobre e apagada em Projetos. Valores de 0 a 1.
+/** Clima fixo das paginas sem Hero (detalhe de projeto, 404): fumaca suave o
+ *  tempo todo, sem o brilho verde do topo. Pra fundo liso, troque smoke por 0. */
+const INNER_PAGE = { glow: 0, smoke: 0.4 };
+
 export function scrollMood() {
+  if (!document.getElementById("top")) return INNER_PAGE;
   const vh = window.innerHeight;
   const y = window.scrollY;
   const projRect = document.getElementById("projetos")?.getBoundingClientRect();
