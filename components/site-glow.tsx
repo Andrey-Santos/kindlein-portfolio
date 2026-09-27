@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SiteWater } from "@/components/site-water";
+// Em teste: correnteza. Pra voltar a grade de pontos, troque por SiteWater (site-water.tsx).
+import { SiteCurrent } from "@/components/site-current";
 
 const ACCENT = "#10B981";
 const PERIOD_PX = 1800;
@@ -36,7 +37,7 @@ export function SiteGlow() {
           background: `radial-gradient(ellipse 900px 1300px at ${xPercent}% 0%, ${ACCENT}33 0%, ${ACCENT}1f 20%, ${ACCENT}0d 40%, transparent 70%)`,
         }}
       />
-      <SiteWater />
+      <SiteCurrent />
       <svg className="absolute inset-0 size-full stroke-border opacity-60">
         <defs>
           <pattern
