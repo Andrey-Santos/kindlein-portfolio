@@ -48,7 +48,7 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Rodape do proprio card: faixa de ponta a ponta com o verde subindo do pe. */}
-      <span className="mt-6 flex items-center justify-center gap-2 border-t border-white/10 bg-[radial-gradient(ellipse_70%_140%_at_50%_100%,rgb(16_185_129/0.14),transparent_70%)] py-4 text-sm font-medium text-white transition-colors group-hover:border-primary/50 group-hover:text-primary">
+      <span className="mt-6 flex items-center justify-center gap-2 bg-[radial-gradient(ellipse_70%_140%_at_50%_100%,rgb(16_185_129/0.14),transparent_70%)] py-4 text-sm font-medium text-white transition-colors group-hover:text-primary">
         Ver detalhes
         <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-1" />
       </span>
