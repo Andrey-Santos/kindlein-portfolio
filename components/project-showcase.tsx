@@ -1,22 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Maximize2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import type { Screen } from "@/lib/data";
-
-const number = (i: number) => String(i + 1).padStart(2, "0");
-
-// Move o foco pro botao vizinho (esquerda/cima ou direita/baixo) na mesma lista de abas.
-function focusSibling(e: React.KeyboardEvent, delta: 1 | -1, count: number, i: number, setIndex: (i: number) => void) {
-  if (!["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(e.key)) return;
-  e.preventDefault();
-  const dir = e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 1;
-  const next = (i + dir * delta + count) % count;
-  setIndex(next);
-  const list = e.currentTarget.parentElement?.children;
-  (list?.[next] as HTMLElement | undefined)?.focus();
-}
 
 export function ProjectShowcase({
   name,
@@ -43,7 +30,61 @@ export function ProjectShowcase({
   const [index, setIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
   const screen = screens[index];
-  const hasTabs = screens.length > 1;
+  const hasMany = screens.length > 1;
+  const frameRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const arrowsRef = useRef<HTMLDivElement>(null);
+  const touchX = useRef<number | null>(null);
+
+  const go = (dir: 1 | -1) => {
+    setIndex((i) => (i + dir + screens.length) % screens.length);
+    // Se a tela anterior era longa e o visitante rolou, volta pro topo da moldura.
+    const frame = frameRef.current;
+    if (frame && frame.getBoundingClientRect().top < 0) {
+      frame.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  // Setas sempre no centro da parte visivel da imagem: no meio dos prints curtos,
+  // acompanhando a tela nos longos. Escrito direto no estilo, sem re-render.
+  useEffect(() => {
+    if (!hasMany) return;
+    let frame = 0;
+    const place = () => {
+      frame = 0;
+      const box = imageRef.current?.getBoundingClientRect();
+      const arrows = arrowsRef.current;
+      if (!box || !arrows) return;
+      const top = Math.max(box.top, 64);
+      const bottom = Math.min(box.bottom, window.innerHeight);
+      const center = (top + bottom) / 2 - box.top - 24;
+      arrows.style.transform = `translateY(${Math.min(Math.max(center, 16), box.height - 64)}px)`;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(place);
+    };
+    place();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [hasMany, index]);
+
+  // Setas esquerda/direita do teclado trocam a tela (a pagina de projeto nao usa slides).
+  useEffect(() => {
+    if (!hasMany) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.target instanceof Element && e.target.closest("input, textarea, select, [contenteditable='true']")) return;
+      if (e.key === "ArrowRight") go(1);
+      else if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
   // Sidebar vira sticky ao lado do conteudo (desktop) ou empilha (mobile);
   // no mobile as telas aparecem logo apos o titulo, antes do texto do case.
@@ -68,45 +109,27 @@ export function ProjectShowcase({
         />
       </div>
 
-      {hasTabs && (
-        <div
-          role="tablist"
-          aria-label="Telas do projeto"
-          // Fade na direita avisa que as abas continuam ao arrastar.
-          className="-mx-1 mb-4 mt-10 flex gap-2 overflow-x-auto px-1 pb-1 [mask-image:linear-gradient(to_right,black_80%,transparent)] lg:hidden"
-        >
-          {screens.map((s, i) => (
-            <button
-              key={s.src}
-              type="button"
-              role="tab"
-              id={`tab-mobile-${i}`}
-              aria-selected={i === index}
-              aria-controls="project-screen-panel"
-              onClick={() => setIndex(i)}
-              onKeyDown={(e) => focusSibling(e, 1, screens.length, i, setIndex)}
-              className={`min-h-11 shrink-0 rounded-full border px-4 font-mono text-xs transition-colors ${
-                i === index
-                  ? "border-primary/60 bg-primary/15 text-primary"
-                  : "border-border text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {number(i)} {s.label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className={`overflow-hidden rounded-xl border border-border bg-card ${hasTabs ? "lg:mt-10" : "mt-10"}`}>
+      <div
+        ref={frameRef}
+        role={hasMany ? "region" : undefined}
+        aria-roledescription={hasMany ? "carrossel" : undefined}
+        aria-label={hasMany ? `Telas do projeto ${name}` : undefined}
+        className="mt-10 scroll-mt-24 overflow-hidden rounded-xl border border-border bg-card"
+      >
         <div className="flex items-center gap-3 border-b border-border px-4 py-3">
           <span aria-hidden="true" className="flex gap-1.5">
             <span className="size-2.5 rounded-full bg-foreground/15" />
             <span className="size-2.5 rounded-full bg-foreground/15" />
             <span className="size-2.5 rounded-full bg-foreground/15" />
           </span>
-          <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
+          <span aria-live="polite" className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
             {domain} <span className="text-foreground/40">/</span> {screen.label}
           </span>
+          {hasMany && (
+            <span className="font-mono text-xs tabular-nums text-muted-foreground">
+              {index + 1} / {screens.length}
+            </span>
+          )}
           <a
             href={screen.src}
             target="_blank"
@@ -117,8 +140,19 @@ export function ProjectShowcase({
             <span className="hidden sm:inline">tamanho real</span>
           </a>
         </div>
-        {/* Imagem no tamanho natural: a pagina rola, sem area de scroll presa por dentro. */}
-        <div id="project-screen-panel" role="tabpanel" aria-label={screen.label} className="bg-background/40">
+        {/* Imagem no tamanho natural: a pagina rola, sem area de scroll presa por dentro.
+            No celular, deslizar pro lado troca a tela. */}
+        <div
+          ref={imageRef}
+          className="relative bg-background/40"
+          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchEnd={(e) => {
+            if (!hasMany || touchX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchX.current;
+            touchX.current = null;
+            if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+          }}
+        >
           <Image
             src={screen.src}
             alt={`${name}, tela: ${screen.label}`}
@@ -127,6 +161,24 @@ export function ProjectShowcase({
             sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
             className="h-auto w-full"
           />
+          {hasMany && (
+            <div
+              ref={arrowsRef}
+              className="pointer-events-none absolute inset-x-0 top-0 flex justify-between px-3"
+            >
+              {([-1, 1] as const).map((dir) => (
+                <button
+                  key={dir}
+                  type="button"
+                  onClick={() => go(dir)}
+                  aria-label={dir < 0 ? "Tela anterior" : "Próxima tela"}
+                  className="pointer-events-auto flex size-12 items-center justify-center rounded-full border border-white/15 bg-[#08090c]/80 text-white shadow-lg backdrop-blur-sm transition-colors hover:border-primary/60 hover:text-primary"
+                >
+                  {dir < 0 ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -140,35 +192,6 @@ export function ProjectShowcase({
         {header}
         {!isDesktop && <div className="mt-8">{main}</div>}
         <div className="mt-8">{aside}</div>
-
-        {hasTabs && (
-          <nav aria-label="Telas do projeto" className="mt-10 hidden lg:block">
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">Telas</p>
-            <ol className="mt-3 border-l border-border">
-              {screens.map((s, i) => (
-                <li key={s.src}>
-                  <button
-                    type="button"
-                    role="tab"
-                    id={`tab-desktop-${i}`}
-                    aria-selected={i === index}
-                    aria-controls="project-screen-panel"
-                    onClick={() => setIndex(i)}
-                    onKeyDown={(e) => focusSibling(e, 1, screens.length, i, setIndex)}
-                    className={`-ml-px flex min-h-11 w-full items-center gap-3 border-l-2 pl-4 text-left text-sm transition-colors ${
-                      i === index
-                        ? "border-primary text-foreground"
-                        : "border-transparent text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <span className={`font-mono text-xs ${i === index ? "text-primary" : ""}`}>{number(i)}</span>
-                    {s.label}
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
 
         <div className="mt-10">{next}</div>
       </aside>
