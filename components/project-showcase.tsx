@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import type { Screen } from "@/lib/data";
 
 export function ProjectShowcase({
@@ -30,6 +30,9 @@ export function ProjectShowcase({
   // A capa entra como primeira tela do carrossel.
   const screens: Screen[] = [{ src: cover, label: "Capa", width: 1920, height: 1080 }, ...projectScreens];
   const [index, setIndex] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLButtonElement>(null);
   const [isDesktop, setIsDesktop] = useState(true);
   const screen = screens[index];
   const hasMany = screens.length > 1;
@@ -42,7 +45,7 @@ export function ProjectShowcase({
     setIndex((i) => (i + dir + screens.length) % screens.length);
     // Se a tela anterior era longa e o visitante rolou, volta pro topo da moldura.
     const frame = frameRef.current;
-    if (frame && frame.getBoundingClientRect().top < 0) {
+    if (!zoomed && frame && frame.getBoundingClientRect().top < 0) {
       frame.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
@@ -59,8 +62,9 @@ export function ProjectShowcase({
       if (!box || !arrows) return;
       const top = Math.max(box.top, 64);
       const bottom = Math.min(box.bottom, window.innerHeight);
-      const center = (top + bottom) / 2 - box.top - 24;
-      arrows.style.transform = `translateY(${Math.min(Math.max(center, 16), box.height - 64)}px)`;
+      const center = (top + bottom) / 2 - box.top - (arrows.offsetHeight || 48) / 2;
+      const size = arrows.offsetHeight || 48;
+      arrows.style.transform = `translateY(${Math.min(Math.max(center, 12), box.height - size - 12)}px)`;
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(place);
@@ -74,6 +78,24 @@ export function ProjectShowcase({
       cancelAnimationFrame(frame);
     };
   }, [hasMany, index]);
+
+  // Ampliar abre por cima da pagina (sem nova aba, o visitante nao sai do site).
+  useEffect(() => {
+    if (!zoomed) return;
+    const opener = openerRef.current;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setZoomed(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+      opener?.focus();
+    };
+  }, [zoomed]);
 
   // Setas esquerda/direita do teclado trocam a tela (a pagina de projeto nao usa slides).
   useEffect(() => {
@@ -125,15 +147,16 @@ export function ProjectShowcase({
               {index + 1} / {screens.length}
             </span>
           )}
-          <a
-            href={screen.src}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex min-h-8 items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
+          <button
+            ref={openerRef}
+            type="button"
+            onClick={() => setZoomed(true)}
+            aria-label={`Ampliar ${screen.label}`}
+            className="-my-2 inline-flex min-h-11 items-center gap-1.5 px-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
           >
             <Maximize2 className="size-3.5" />
-            <span className="hidden sm:inline">tamanho real</span>
-          </a>
+            <span className="hidden sm:inline">ampliar</span>
+          </button>
         </div>
         {/* Imagem no tamanho natural: a pagina rola, sem area de scroll presa por dentro.
             No celular, deslizar pro lado troca a tela. */}
@@ -152,13 +175,14 @@ export function ProjectShowcase({
           }}
         >
           <Image
+            onClick={() => setZoomed(true)}
             src={screen.src}
             alt={`${name}, tela: ${screen.label}`}
             width={screen.width}
             height={screen.height}
             sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
             priority={index === 0}
-            className="h-auto w-full"
+            className="h-auto w-full cursor-zoom-in"
           />
           {hasMany && (
             <div
@@ -171,7 +195,7 @@ export function ProjectShowcase({
                   type="button"
                   onClick={() => go(dir)}
                   aria-label={dir < 0 ? "Tela anterior" : "Próxima tela"}
-                  className="pointer-events-auto flex size-12 items-center justify-center rounded-full border border-white/15 bg-[#08090c]/80 text-white shadow-lg backdrop-blur-sm transition-colors hover:border-primary/60 hover:text-primary"
+                  className="pointer-events-auto flex size-10 items-center justify-center rounded-full border border-white/15 bg-[#08090c]/65 text-white shadow-lg backdrop-blur-sm transition-colors before:absolute before:-inset-1 hover:border-primary/60 hover:text-primary sm:size-12 sm:bg-[#08090c]/80"
                 >
                   {dir < 0 ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
                 </button>
@@ -182,6 +206,68 @@ export function ProjectShowcase({
       </div>
 
       <div className="mt-12">{body}</div>
+
+      {zoomed && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${name}: ${screen.label} ampliada`}
+          className="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-[#050507]/95 backdrop-blur-sm"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setZoomed(false);
+          }}
+        >
+          <div className="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#050507]/90 px-4 py-3 backdrop-blur-md sm:px-8">
+            <span className="min-w-0 truncate font-mono text-xs text-muted-foreground">
+              {screen.label}
+              {hasMany && (
+                <span className="ml-3 tabular-nums">
+                  {index + 1} / {screens.length}
+                </span>
+              )}
+            </span>
+            <div className="flex items-center gap-2">
+              {hasMany &&
+                ([-1, 1] as const).map((dir) => (
+                  <button
+                    key={dir}
+                    type="button"
+                    onClick={() => setIndex((i) => (i + dir + screens.length) % screens.length)}
+                    aria-label={dir < 0 ? "Tela anterior" : "Próxima tela"}
+                    className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-primary/60 hover:text-primary"
+                  >
+                    {dir < 0 ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
+                  </button>
+                ))}
+              <button
+                ref={closeRef}
+                type="button"
+                onClick={() => setZoomed(false)}
+                aria-label="Fechar"
+                className="flex size-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-primary/60 hover:text-primary"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+          </div>
+          {/* Desktop: largura real da imagem (ate a tela). Celular: dobro da largura,
+              arrasta pros lados pra ler os detalhes. Prints longos rolam pra baixo. */}
+          <div className="overflow-x-auto px-2 pb-8 sm:px-8">
+            <div className="mx-auto w-[200%] sm:w-auto" style={{ maxWidth: screen.width + 64 }}>
+            <Image
+              key={screen.src}
+              src={screen.src}
+              alt={`${name}, tela: ${screen.label}`}
+              width={screen.width}
+              height={screen.height}
+              sizes="100vw"
+              quality={90}
+              className="h-auto w-full rounded-lg"
+            />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 
@@ -189,8 +275,9 @@ export function ProjectShowcase({
     <div className="lg:flex lg:items-start lg:gap-14">
       <aside className="lg:sticky lg:top-24 lg:w-[22rem] lg:shrink-0">
         {header}
-        {!isDesktop && <div className="mt-8">{main}</div>}
+        {/* No celular o CTA vem antes das telas, ja na primeira dobra. */}
         <div className="mt-8">{aside}</div>
+        {!isDesktop && <div className="mt-10">{main}</div>}
 
         <div className="mt-10">{next}</div>
       </aside>
