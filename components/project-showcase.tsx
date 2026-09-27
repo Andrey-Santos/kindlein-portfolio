@@ -114,7 +114,11 @@ export function ProjectShowcase({
             <span className="size-2.5 rounded-full bg-foreground/15" />
           </span>
           <span aria-live="polite" className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
-            {domain} <span className="text-foreground/40">/</span> {screen.label}
+            {/* No celular so o nome da tela; o dominio ja aparece no link "ver ao vivo". */}
+            <span className="hidden sm:inline">
+              {domain} <span className="text-foreground/40">/</span>{" "}
+            </span>
+            {screen.label}
           </span>
           {hasMany && (
             <span className="font-mono text-xs tabular-nums text-muted-foreground">
