@@ -36,7 +36,7 @@ export function ProjectShowcase({
   const frameRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const arrowsRef = useRef<HTMLDivElement>(null);
-  const touchX = useRef<number | null>(null);
+  const touch = useRef<{ x: number; y: number } | null>(null);
 
   const go = (dir: 1 | -1) => {
     setIndex((i) => (i + dir + screens.length) % screens.length);
@@ -136,12 +136,15 @@ export function ProjectShowcase({
         <div
           ref={imageRef}
           className="relative bg-background/40"
-          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchStart={(e) => (touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY })}
           onTouchEnd={(e) => {
-            if (!hasMany || touchX.current === null) return;
-            const dx = e.changedTouches[0].clientX - touchX.current;
-            touchX.current = null;
-            if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+            if (!hasMany || !touch.current) return;
+            const dx = e.changedTouches[0].clientX - touch.current.x;
+            const dy = e.changedTouches[0].clientY - touch.current.y;
+            touch.current = null;
+            // So gesto claramente horizontal troca a tela; rolagem vertical com
+            // desvio pro lado nao.
+            if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
           }}
         >
           <Image

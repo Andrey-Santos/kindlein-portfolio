@@ -15,7 +15,7 @@ export function SiteFooter() {
       </div>
       <dl className="shell grid gap-8 py-10 sm:grid-cols-3">
         <div>
-          <dt className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Contato
           </dt>
           <dd className="mt-2">
@@ -30,7 +30,7 @@ export function SiteFooter() {
           </dd>
         </div>
         <div>
-          <dt className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             E-mail
           </dt>
           <dd className="mt-2">
@@ -43,7 +43,7 @@ export function SiteFooter() {
           </dd>
         </div>
         <div>
-          <dt className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Onde
           </dt>
           <dd className="mt-2">{contact.location}</dd>

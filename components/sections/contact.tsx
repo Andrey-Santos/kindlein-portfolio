@@ -11,7 +11,7 @@ export function Contact() {
           <p className="font-mono text-sm text-muted-foreground">
             <span className="text-primary">$</span> contato
           </p>
-          <h2 className="mt-4 font-heading text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
+          <h2 className="mt-4 font-heading text-[2.75rem] font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
             Me conta
             <br />
             seu projeto.

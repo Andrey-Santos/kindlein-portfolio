@@ -20,7 +20,7 @@ export function ProjectCard({ project }: { project: Project }) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
         {project.concept && (
-          <span className="absolute right-3 top-3 z-10 rounded-full border border-white/25 bg-black/60 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+          <span className="absolute right-3 top-3 z-10 rounded-full border border-white/25 bg-black/60 px-3 py-1 font-mono text-xs uppercase tracking-[0.18em] text-white backdrop-blur-sm">
             Projeto conceito
           </span>
         )}
