@@ -239,7 +239,7 @@ export function Hero() {
                   <div
                     ref={slotRef}
                     aria-hidden="true"
-                    className="invisible aspect-[4/5] w-3/5"
+                    className="invisible aspect-[5/4] w-full"
                   />
                 )}
                 <p className="font-mono text-sm text-muted-foreground">

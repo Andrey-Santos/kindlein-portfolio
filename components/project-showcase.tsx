@@ -8,7 +8,7 @@ import type { Screen } from "@/lib/data";
 export function ProjectShowcase({
   name,
   domain,
-  screens,
+  screens: projectScreens,
   cover,
   header,
   aside,
@@ -27,6 +27,8 @@ export function ProjectShowcase({
   body: React.ReactNode;
   next: React.ReactNode;
 }) {
+  // A capa entra como primeira tela do carrossel.
+  const screens: Screen[] = [{ src: cover, label: "Capa", width: 1920, height: 1080 }, ...projectScreens];
   const [index, setIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
   const screen = screens[index];
@@ -98,23 +100,12 @@ export function ProjectShowcase({
 
   const main = (
     <>
-      <div className="relative aspect-video overflow-hidden rounded-xl border border-border">
-        <Image
-          src={cover}
-          alt={`${name}, capa`}
-          fill
-          priority
-          sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
-          className="object-cover"
-        />
-      </div>
-
       <div
         ref={frameRef}
         role={hasMany ? "region" : undefined}
         aria-roledescription={hasMany ? "carrossel" : undefined}
         aria-label={hasMany ? `Telas do projeto ${name}` : undefined}
-        className="mt-10 scroll-mt-24 overflow-hidden rounded-xl border border-border bg-card"
+        className="scroll-mt-24 overflow-hidden rounded-xl border border-border bg-card"
       >
         <div className="flex items-center gap-3 border-b border-border px-4 py-3">
           <span aria-hidden="true" className="flex gap-1.5">
@@ -159,6 +150,7 @@ export function ProjectShowcase({
             width={screen.width}
             height={screen.height}
             sizes="(min-width: 1440px) 900px, (min-width: 1024px) 60vw, 100vw"
+            priority={index === 0}
             className="h-auto w-full"
           />
           {hasMany && (
