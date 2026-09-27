@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { whatsappHref } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -9,7 +9,7 @@ export function WhatsAppCta({
   className,
 }: {
   children?: React.ReactNode;
-  /** Brilho verde + feixe animado: so no CTA principal de cada tela. */
+  /** Brilho verde + feixe animado: so no CTA final (Contato) e no da pagina de projeto. */
   featured?: boolean;
   className?: string;
 }) {
@@ -26,8 +26,9 @@ export function WhatsAppCta({
         className
       )}
     >
+      <WhatsAppIcon className="size-4" />
       {children}
-      <ArrowRight className="size-4" />
+      <span className="sr-only"> (abre em nova aba)</span>
     </Link>
   );
 }

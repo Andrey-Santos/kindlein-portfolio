@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`dark ${jetbrainsMono.variable} h-full snap-y snap-mandatory antialiased`}
+      className={`dark ${jetbrainsMono.variable} h-full scroll-pt-16 snap-y snap-mandatory antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-background text-foreground">
         <SiteGlow />

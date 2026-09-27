@@ -1,24 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { SiteSmoke } from "@/components/site-smoke";
 import { scrollMood } from "@/lib/scroll-mood";
 
 const ACCENT = "#10B981";
 const PERIOD_PX = 1800;
 
+const glowBackground = (xPercent: number) =>
+  `radial-gradient(ellipse 900px 1300px at ${xPercent}% 0%, ${ACCENT}33 0%, ${ACCENT}1f 20%, ${ACCENT}0d 40%, transparent 70%)`;
+
 export function SiteGlow() {
-  const [xPercent, setXPercent] = useState(0);
-  const [glow, setGlow] = useState(1);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
+    // Escreve direto no estilo: sem re-render do React a cada quadro de scroll.
     const update = () => {
       frame = 0;
+      const el = glowRef.current;
+      if (!el) return;
       const t = (1 - Math.cos((window.scrollY / PERIOD_PX) * Math.PI)) / 2;
-      setXPercent(t * 100);
-      setGlow(scrollMood().glow);
+      el.style.background = glowBackground(t * 100);
+      el.style.opacity = String(scrollMood().glow);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -33,13 +38,7 @@ export function SiteGlow() {
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
-      <div
-        className="absolute inset-0"
-        style={{
-          opacity: glow,
-          background: `radial-gradient(ellipse 900px 1300px at ${xPercent}% 0%, ${ACCENT}33 0%, ${ACCENT}1f 20%, ${ACCENT}0d 40%, transparent 70%)`,
-        }}
-      />
+      <div ref={glowRef} className="absolute inset-0" style={{ background: glowBackground(0) }} />
       <SiteSmoke />
     </div>
   );

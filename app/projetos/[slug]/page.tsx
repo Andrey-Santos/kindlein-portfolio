@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
                 {project.own && " · produto próprio"}
               </p>
               {project.concept && (
-                <p className="mt-3 inline-block rounded-full border border-border px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-foreground/80">
+                <p className="mt-3 inline-block rounded-full border border-border px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground/80">
                   Projeto conceito · não publicado
                 </p>
               )}

@@ -12,7 +12,7 @@ export function KindleinSignature() {
         gap: "0.4em",
         fontSize: "0.75rem",
         color: "inherit",
-        opacity: 0.7,
+        opacity: 0.85,
         textDecoration: "none",
       }}
     >

@@ -206,26 +206,26 @@ export function Hero() {
                 inert={enabled && heroOpacity < 0.1}
                 className={enabled ? "absolute inset-0" : "relative z-10 min-h-[32rem] md:mb-16 md:min-h-0"}
               >
-                <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.2em]">
+                <p className="animate-fade-in font-mono text-sm font-bold uppercase tracking-[0.18em]">
                   Andrey Kindlein
                 </p>
-                <p className="animate-fade-in animation-delay-200 mt-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                <p className="animate-fade-in animation-delay-1 mt-1 font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
                   Desenvolvedor full-stack
                 </p>
 
-                <h1 className="animate-fade-in animation-delay-200 mt-8 text-balance font-mono text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+                <h1 className="animate-fade-in animation-delay-1 mt-8 text-balance font-mono text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
                   Sites e sistemas
                   <br />
                   <span className="text-primary">sob medida.</span>
                 </h1>
 
-                <p className="animate-fade-in animation-delay-400 mt-6 max-w-xl text-pretty text-base leading-relaxed text-foreground/80 sm:text-lg">
+                <p className="animate-fade-in animation-delay-2 mt-6 max-w-xl text-pretty text-base leading-relaxed text-foreground/80 sm:text-lg">
                   Pra pequenas empresas que precisam vender online, controlar
                   estoque ou organizar o financeiro. Você fala direto com quem
                   desenvolve.
                 </p>
 
-                <div className="animate-fade-in animation-delay-600 mt-8">
+                <div className="animate-fade-in animation-delay-3 mt-8">
                   <WhatsAppCta />
                 </div>
               </div>
@@ -239,13 +239,13 @@ export function Hero() {
                   <div
                     ref={slotRef}
                     aria-hidden="true"
-                    className="invisible aspect-[4/5] w-full"
+                    className="invisible aspect-[4/5] w-3/5"
                   />
                 )}
                 <p className="font-mono text-sm text-muted-foreground">
                   <span className="text-primary">$</span> sobre
                 </p>
-                <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+                <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
                   Experiência que virou solução
                 </h2>
                 <div className="max-w-prose space-y-4 leading-relaxed text-muted-foreground">

@@ -143,7 +143,7 @@ export function ProjectShowcase({
 
         {hasTabs && (
           <nav aria-label="Telas do projeto" className="mt-10 hidden lg:block">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Telas</p>
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">Telas</p>
             <ol className="mt-3 border-l border-border">
               {screens.map((s, i) => (
                 <li key={s.src}>

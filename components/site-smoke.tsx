@@ -67,6 +67,7 @@ export function SiteSmoke() {
     let time = 0;
     let frame = 0;
     let last = 0;
+    let idle = false;
 
     const resize = () => {
       canvas.width = Math.round(window.innerWidth * RENDER_SCALE);
@@ -87,7 +88,18 @@ export function SiteSmoke() {
       if (now - last < 33) return;
       time += (last ? now - last : 0) / 1000 * SPEED;
       last = now;
-      amount += (target() - amount) * 0.1;
+      const goal = target();
+      amount += (goal - amount) * 0.1;
+      // Invisivel (Hero, Projetos): limpa uma vez e para de gastar GPU.
+      if (amount < 0.005 && goal < 0.005) {
+        if (!idle) {
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+          idle = true;
+        }
+        return;
+      }
+      idle = false;
       draw();
     };
 

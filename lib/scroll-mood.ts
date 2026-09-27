@@ -3,8 +3,8 @@ const smooth = (a: number, b: number, v: number) => {
   return t * t * (3 - 2 * t);
 };
 
-// "Clima" do fundo conforme o scroll: verde no topo, preto no meio com a agua
-// em destaque no Sobre, verde de novo no Contato. Valores de 0 a 1.
+// "Clima" do fundo conforme o scroll: brilho verde no topo e no Contato,
+// fumaca forte no Sobre e apagada em Projetos. Valores de 0 a 1.
 export function scrollMood() {
   const vh = window.innerHeight;
   const y = window.scrollY;
@@ -21,8 +21,6 @@ export function scrollMood() {
   return {
     /** Brilho verde do fundo. */
     glow: Math.max(1 - leftHero, nearContact),
-    /** Destaque da agua (pontos maiores, mais fortes e pulando mais). */
-    water: leftHero * beforeProjects,
     /** Fumaca: nada no Hero (foto precisa de fundo liso), forte no Sobre,
      *  apagada em Projetos, suave de Servicos pra baixo (0.2). */
     smoke: Math.min(0.9, 0.9 * leftHero * beforeProjects + 0.2 * afterProjects),

@@ -8,7 +8,10 @@ export function Contact() {
     >
       <div className="shell reveal flex flex-col items-start gap-12 py-16 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="font-heading text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
+          <p className="font-mono text-sm text-muted-foreground">
+            <span className="text-primary">$</span> contato
+          </p>
+          <h2 className="mt-4 font-heading text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
             Tem um
             <br />
             projeto?
@@ -19,7 +22,7 @@ export function Contact() {
           </p>
         </div>
         <WhatsAppCta featured className="shrink-0 px-10 py-6 text-base">
-          Chamar no WhatsApp
+          Falar no WhatsApp
         </WhatsAppCta>
       </div>
     </section>

@@ -16,7 +16,7 @@ Portfólio comercial da Kindlein, marca de Andrey Kindlein: desenvolvimento de s
 - Experiência real de mercado como desenvolvedor em empresas de tecnologia: começou no backend (PHP, Delphi, SQL, APIs REST) e evoluiu pra full-stack moderno (React, Next.js). Não é iniciante.
 - Entrega sistemas que rodam o negócio (estoque, financeiro, automação), não só sites.
 - Atendimento direto: o cliente fala com quem escreve o código, sem intermediário.
-- Tem produtos próprios em produção (Kindlein Stock, Kindlein Finance).
+- Tem produtos próprios em produção (Kindlein Stock, Kindlein Wallet).
 
 ## Operating Context
 Visitante chega majoritariamente pelo celular, vindo de link compartilhado. Avalia rápido, abre um ou dois projetos ao vivo, decide se chama no WhatsApp.
@@ -35,7 +35,7 @@ Visitante chega majoritariamente pelo celular, vindo de link compartilhado. Aval
 - Sobre: citar experiência de mercado sem nomes de empresas nem datas.
 
 ## Evidence on Hand
-- 6 projetos reais ao vivo: Fabula (fabula-delta.vercel.app), Metálica 3W (3wsite.vercel.app), Kindlein Stock (stock.kindlein.business), Kindlein Finance (finance.kindlein.business), Puffs (puffs.kindlein.business), Goetten Store (goetten-store.kindlein.business).
+- 6 projetos reais ao vivo: Fabula (fabula-delta.vercel.app), Metálica 3W (3wsite.vercel.app), Kindlein Stock (stock.kindlein.business), Kindlein Wallet (finance.kindlein.business), Puffs (puffs.kindlein.business), Goetten Store (goetten-store.kindlein.business).
 - Screenshots reais dos projetos (existentes ou a adicionar).
 - NÃO existem depoimentos de clientes nem métricas/resultados. Não inventar.
 

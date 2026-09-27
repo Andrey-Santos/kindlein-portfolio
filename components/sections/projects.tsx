@@ -14,7 +14,7 @@ export function Projects() {
           <p className="font-mono text-sm text-muted-foreground">
             <span className="text-primary">$</span> projetos
           </p>
-          <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="mt-4 font-heading text-3xl font-bold tracking-tight sm:text-4xl">
             Projetos entregues
           </h2>
         </div>

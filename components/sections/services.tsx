@@ -12,13 +12,13 @@ export function Services() {
           <p className="font-mono text-sm text-muted-foreground">
             <span className="text-primary">$</span> serviços
           </p>
-          <h2 className="mt-6 max-w-4xl text-balance font-heading text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+          <h2 className="mt-4 max-w-4xl text-balance font-heading text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
             O site é a porta de entrada.{" "}
             <em className="text-primary">O resto entra conforme você cresce.</em>
           </h2>
         </div>
         {/* Lista editorial: titulo grande a esquerda, descricao a direita, linhas finas. */}
-        <ul className="reveal mt-14 border-t border-border">
+        <ul className="reveal mt-12 border-t border-border">
           {services.map((service) => (
             <li
               key={service.title}
