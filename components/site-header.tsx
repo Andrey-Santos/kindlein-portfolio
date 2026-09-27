@@ -14,21 +14,34 @@ const navItems = [
 export function SiteHeader() {
   const isHome = usePathname() === "/";
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string | null>(isHome ? null : "/#projetos");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      if (!isHome) return;
+      // Secao atual = a ultima cujo topo ja passou de 40% da tela.
+      const line = window.innerHeight * 0.4;
+      let current: string | null = null;
+      for (const item of navItems) {
+        const el = document.getElementById(item.href.slice(2));
+        if (el && el.getBoundingClientRect().top <= line) current = item.href;
+      }
+      setActive(current);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
 
   // Transparente so no topo da home (sobre a foto do Hero); rolou, fica solido.
+  // Tom mais escuro que o fundo da pagina, senao o "solido" parece transparente.
   const solid = !isHome || scrolled;
 
   return (
     <header
       className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
-        solid ? "border-border bg-background" : "border-transparent"
+        solid ? "border-white/10 bg-[#08090c]/90 backdrop-blur-md" : "border-transparent"
       }`}
     >
       <div
@@ -50,9 +63,18 @@ export function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="px-1.5 py-3 transition-colors hover:text-primary sm:px-0"
+              aria-current={active === item.href ? "location" : undefined}
+              className={`relative px-1.5 py-3 transition-colors hover:text-primary sm:px-0 ${
+                active === item.href ? "text-foreground" : "text-foreground/60"
+              }`}
             >
               {item.label}
+              <span
+                aria-hidden="true"
+                className={`absolute inset-x-1.5 bottom-1.5 h-px bg-primary transition-opacity sm:inset-x-0 ${
+                  active === item.href ? "opacity-100" : "opacity-0"
+                }`}
+              />
             </Link>
           ))}
         </nav>

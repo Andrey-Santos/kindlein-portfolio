@@ -10,7 +10,11 @@ const jetbrainsMono = JetBrains_Mono({
   style: ["normal", "italic"],
 });
 
-const siteUrl = "https://kindlein.business";
+// Dominio de producao da Vercel (vira kindlein.business sozinho quando ele for
+// configurado); fora da Vercel cai no dominio final.
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "https://kindlein.business";
 
 const description =
   "Andrey Kindlein desenvolve sites institucionais, e-commerce e sistemas sob medida — estoque, financeiro, automações — pra pequenas empresas.";

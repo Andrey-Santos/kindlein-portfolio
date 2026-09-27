@@ -210,7 +210,7 @@ export function Hero() {
                   Andrey Kindlein
                 </p>
                 <p className="animate-fade-in animation-delay-1 mt-1 font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Desenvolvedor full-stack
+                  Desenvolvedor web · Rio do Sul – SC
                 </p>
 
                 <h1 className="animate-fade-in animation-delay-1 mt-8 text-balance font-mono text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
@@ -220,9 +220,9 @@ export function Hero() {
                 </h1>
 
                 <p className="animate-fade-in animation-delay-2 mt-6 max-w-xl text-pretty text-base leading-relaxed text-foreground/80 sm:text-lg">
-                  Pra pequenas empresas que precisam vender online, controlar
-                  estoque ou organizar o financeiro. Você fala direto com quem
-                  desenvolve.
+                  Feitos pra pequenas empresas que precisam vender online,
+                  controlar estoque ou organizar o financeiro. Você fala direto
+                  com quem desenvolve.
                 </p>
 
                 <div className="animate-fade-in animation-delay-3 mt-8">
@@ -255,14 +255,10 @@ export function Hero() {
                     funciona — não em enfeite.
                   </p>
                   <p>
-                    Comecei no backend (PHP, Delphi, SQL, APIs REST) e evoluí
-                    pro full-stack moderno (React, Next.js).
-                  </p>
-                  <p>
-                    Hoje aplico essa bagagem direto no negócio de pequenas
-                    empresas, sob a marca Kindlein — meu sobrenome que virou
-                    identidade — com tecnologia sem complicação e sem solução
-                    genérica.
+                    Comecei no backend (PHP, Delphi, SQL, APIs REST), evoluí pro
+                    full-stack moderno (React, Next.js) e hoje aplico essa
+                    bagagem direto no negócio de pequenas empresas, sob a marca
+                    Kindlein — meu sobrenome, que assina cada projeto.
                   </p>
                 </div>
               </div>

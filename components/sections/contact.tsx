@@ -12,9 +12,9 @@ export function Contact() {
             <span className="text-primary">$</span> contato
           </p>
           <h2 className="mt-4 font-heading text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
-            Tem um
+            Me conta
             <br />
-            projeto?
+            seu projeto.
           </h2>
           <p className="mt-10 max-w-md text-pretty text-lg leading-relaxed text-muted-foreground">
             Sem intermediário e sem pacote pronto. Você explica o seu negócio,
