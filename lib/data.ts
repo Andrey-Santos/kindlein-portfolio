@@ -107,7 +107,7 @@ export const projects: Project[] = [
     cover: "/projects/eliane-capa.webp",
     slug: "studio-eliane-goetten",
     about:
-      "Studio com nota 5,0 no Google e mais de 2.000 clientes atendidas, mas sem um site à altura de quem procura extensão de cílios em Rio do Sul. O site abre com a Eliane e o atendimento no Centro, mostra as 13 técnicas do mais delicado ao mais volumoso com valores claros, traz avaliações reais do Google e o studio por dentro, e leva direto ao agendamento pelo WhatsApp ou online. Dados estruturados e SEO local ajudam o studio a aparecer na busca da cidade.",
+      "Studio com nota 5,0 no Google e mais de 2.000 clientes atendidas, mas quem procurava extensão de cílios em Rio do Sul não encontrava um lugar que transmitisse esse nível. Fiz uma landing page de autoconversão: cada seção existe para levar a visitante ao agendamento, sem depender de ninguém responder mensagem. Ela abre com a Eliane e o studio no Centro, mostra as 13 técnicas do mais delicado ao mais volumoso com valores claros, traz avaliações reais do Google e agenda pelo WhatsApp ou online, com botão fixo sempre à mão. Está ligada ao Google Analytics, então dá pra ver de onde vem cada visita, o que ela clicou e quantas viram agendamento — decisão com dado, não palpite. Com SEO local e dados estruturados, o studio aparece na busca da cidade e no Google Maps, e o celular, de onde vem a maioria dos acessos, foi o ponto de partida. A vantagem pra quem tem um negócio local: um vendedor que trabalha 24 horas, tira a dúvida de preço antes do primeiro contato e entrega cliente já decidida, em vez de curiosa.",
     screens: [
       screen("eliane-goetten-home", "Página completa", 1920, 13060),
       screen("eliane-goetten-hero", "Hero", 1920, 1080),
