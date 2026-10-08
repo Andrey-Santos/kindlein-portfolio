@@ -99,6 +99,24 @@ export const projects: Project[] = [
     ],
   },
   {
+    name: "Studio Eliane Goetten",
+    description: "Site de extensão de cílios em Rio do Sul, com 13 técnicas, avaliações do Google e agendamento pelo WhatsApp ou online.",
+    kind: "Site com agendamento",
+    stack: ["Next.js", "Tailwind CSS", "SEO local"],
+    url: "https://eliane-goetten.kindlein.business/",
+    cover: "/projects/eliane-capa.webp",
+    slug: "studio-eliane-goetten",
+    about:
+      "Studio com nota 5,0 no Google e mais de 2.000 clientes atendidas, mas sem um site à altura de quem procura extensão de cílios em Rio do Sul. O site abre com a Eliane e o atendimento no Centro, mostra as 13 técnicas do mais delicado ao mais volumoso com valores claros, traz avaliações reais do Google e o studio por dentro, e leva direto ao agendamento pelo WhatsApp ou online. Dados estruturados e SEO local ajudam o studio a aparecer na busca da cidade.",
+    screens: [
+      screen("eliane-goetten-home", "Página completa", 1920, 13060),
+      screen("eliane-goetten-hero", "Hero", 1920, 1080),
+      screen("eliane-goetten-tecnicas", "Valores e técnicas", 1920, 1080),
+      screen("eliane-goetten-avaliacoes", "Avaliações do Google", 1920, 1080),
+      screen("eliane-goetten-studio", "O studio", 1920, 1080),
+    ],
+  },
+  {
     name: "Fabula",
     description: "Moda feminina da loja física de Rio do Sul, com carrinho e checkout.",
     kind: "E-commerce",

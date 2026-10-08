@@ -35,7 +35,7 @@ Visitante chega majoritariamente pelo celular, vindo de link compartilhado. Aval
 - Sobre: citar experiência de mercado sem nomes de empresas nem datas.
 
 ## Evidence on Hand
-- 6 projetos reais ao vivo: Fabula (fabula-delta.vercel.app), Metálica 3W (3wsite.vercel.app), Kindlein Stock (stock.kindlein.business), Kindlein Wallet (finance.kindlein.business), Puffs (puffs.kindlein.business), Goetten Store (goetten-store.kindlein.business).
+- 7 projetos reais ao vivo: Studio Eliane Goetten (eliane-goetten.kindlein.business), Fabula (fabula-delta.vercel.app), Metálica 3W (3wsite.vercel.app), Kindlein Stock (stock.kindlein.business), Kindlein Wallet (finance.kindlein.business), Puffs (puffs.kindlein.business), Goetten Store (goetten-store.kindlein.business).
 - Screenshots reais dos projetos (existentes ou a adicionar).
 - NÃO existem depoimentos de clientes nem métricas/resultados. Não inventar.
 
