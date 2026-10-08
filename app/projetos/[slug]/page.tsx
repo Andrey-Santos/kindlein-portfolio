@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/projetos/[slug]">
   if (!project) return {};
   return {
     title: `${project.name} — Andrey Kindlein`,
-    description: project.about,
+    description: project.about.split("\n\n")[0],
     openGraph: { images: [project.cover] },
   };
 }
@@ -91,7 +91,11 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
           body={
             <>
               <h2 className="font-heading text-2xl font-semibold tracking-tight">Sobre o projeto</h2>
-              <p className="mt-4 max-w-prose text-pretty leading-relaxed text-foreground/80">{project.about}</p>
+              {project.about.split("\n\n").map((par) => (
+                <p key={par} className="mt-4 max-w-prose text-pretty leading-relaxed text-foreground/80">
+                  {par}
+                </p>
+              ))}
               <p className="mt-6 font-mono text-xs text-muted-foreground">
                 Feito com {project.stack.join(" · ")}
               </p>
