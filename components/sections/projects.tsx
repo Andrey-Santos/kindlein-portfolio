@@ -1,4 +1,4 @@
-import { ProjectCard } from "@/components/project-card";
+import { ProjectCarousel } from "@/components/project-carousel";
 import { WhatsAppCta } from "@/components/whatsapp-cta";
 import { projects } from "@/lib/data";
 
@@ -9,8 +9,8 @@ export function Projects() {
       // Fundo preto solido por cima da fumaca/brilho, com bordas esfumadas pra entrar e sair suave.
       className="flex min-h-[calc(100svh-4rem)] snap-start scroll-mt-16 flex-col justify-center bg-[linear-gradient(to_bottom,transparent,#050507_10rem,#050507_calc(100%-10rem),transparent)]"
     >
-      <div className="shell py-16">
-        <div className="reveal">
+      <div className="py-16">
+        <div className="reveal shell">
           <p className="font-mono text-sm text-muted-foreground">
             <span className="text-primary">$</span> projetos
           </p>
@@ -18,14 +18,8 @@ export function Projects() {
             Projetos entregues
           </h2>
         </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {projects.map((project) => (
-            <div key={project.name} className="reveal flex">
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
-        <div className="reveal mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+        <ProjectCarousel projects={projects} />
+        <div className="reveal shell mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
           <p className="text-foreground/80">Precisa de algo parecido?</p>
           <WhatsAppCta source="projetos" />
         </div>
