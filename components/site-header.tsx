@@ -53,6 +53,13 @@ export function SiteHeader() {
       <div className="grid h-16 w-full grid-cols-[1fr_auto_1fr] items-center px-4 font-mono text-xs font-medium text-foreground sm:px-8 sm:text-sm lg:px-10">
         <Link
           href="/"
+          onClick={(e) => {
+            // Ja na home: so volta ao topo (o Link sozinho nao rola de forma confiavel com o snap).
+            if (!isHome) return;
+            e.preventDefault();
+            const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            window.scrollTo({ top: 0, behavior: reduce ? "instant" : "smooth" });
+          }}
           className="hidden justify-self-start py-3 text-primary transition-colors hover:text-foreground lg:inline"
         >
           ~/kindlein
